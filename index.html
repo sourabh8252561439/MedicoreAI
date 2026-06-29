@@ -1,1429 +1,773 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MediCore AI — Your AI Doctor, Anytime. Anywhere.</title>
-<meta name="description" content="MediCore AI is an advanced AI-powered healthcare platform offering AI symptom checking, online doctor consultations, smart health records, and emergency prediction alerts.">
+<title>MediCore AI — Smarter Healthcare with AI Assistance</title>
+<meta name="description" content="MediCore AI provides fast, reliable, and secure medical guidance. Book online doctor consultations, manage health records, and get AI-powered symptom checking.">
+<meta name="keywords" content="online doctor consultation, AI healthcare, medical platform, telemedicine, health records, MediCore AI">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
 <script>
 tailwind.config = {
-  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
-        display: ['Space Grotesk', 'sans-serif'],
-        body: ['Manrope', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        sans: ['Inter', 'sans-serif'],
       },
+      colors: {
+        brand: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+        },
+        sky: {
+          400: '#38bdf8',
+          500: '#0ea5e9',
+          600: '#0284c7',
+        },
+        ink: {
+          900: '#0f172a',
+          700: '#334155',
+          500: '#64748b',
+          400: '#94a3b8',
+          300: '#cbd5e1',
+          200: '#e2e8f0',
+          100: '#f1f5f9',
+          50: '#f8fafc',
+        }
+    },
+    boxShadow: {
+      'soft': '0 2px 8px -2px rgba(15, 23, 42, 0.06), 0 4px 16px -4px rgba(15, 23, 42, 0.04)',
+      'card': '0 1px 3px rgba(15, 23, 42, 0.04), 0 8px 24px -8px rgba(15, 23, 42, 0.08)',
+      'card-hover': '0 4px 8px -2px rgba(15, 23, 42, 0.08), 0 16px 40px -8px rgba(37, 99, 235, 0.12)',
+      'btn': '0 1px 2px rgba(37, 99, 235, 0.16), 0 4px 12px -2px rgba(37, 99, 235, 0.24)',
+    }
     }
   }
 }
 </script>
 
 <style>
-:root {
-  --bg-base: #070b15;
-  --bg-surface: #0d1322;
-  --bg-elevated: #121a2e;
-  --glass-bg: rgba(255, 255, 255, 0.025);
-  --glass-border: rgba(255, 255, 255, 0.06);
-  --glass-border-hover: rgba(0, 212, 255, 0.25);
-  --text-primary: #e8eef9;
-  --text-secondary: #9ba8c0;
-  --text-muted: #5d6a85;
-  --accent-cyan: #00d4ff;
-  --accent-teal: #00ffa3;
-  --accent-blue: #3b82f6;
-  --accent-purple: #8b5cf6;
-  --accent-red: #ff3b5c;
-  --accent-amber: #ffb800;
-  --glow-cyan: rgba(0, 212, 255, 0.15);
-  --glow-teal: rgba(0, 255, 163, 0.12);
-}
-
-html.light {
-  --bg-base: #f4f7fc;
-  --bg-surface: #ffffff;
-  --bg-elevated: #ffffff;
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(15, 23, 42, 0.08);
-  --glass-border-hover: rgba(0, 150, 200, 0.3);
-  --text-primary: #0a1628;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
-}
-
-* { -webkit-font-smoothing: antialiased; }
-
-body {
-  font-family: 'Manrope', sans-serif;
-  background: var(--bg-base);
-  color: var(--text-primary);
-  overflow-x: hidden;
-  transition: background 0.4s ease, color 0.4s ease;
-}
-
-.font-display { font-family: 'Space Grotesk', sans-serif; }
-.font-mono { font-family: 'JetBrains Mono', monospace; }
-
-/* Background atmosphere */
-.bg-atmosphere {
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background: 
-    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(0, 212, 255, 0.08), transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(139, 92, 246, 0.06), transparent 60%),
-    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(0, 255, 163, 0.05), transparent 60%),
-    var(--bg-base);
-}
-
-html.light .bg-atmosphere {
-  background: 
-    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(0, 180, 220, 0.08), transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(99, 102, 241, 0.05), transparent 60%),
-    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(20, 184, 166, 0.05), transparent 60%),
-    var(--bg-base);
-}
-
-#particle-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.6;
-}
-
-/* Glassmorphism */
-.glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid var(--glass-border);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass:hover {
-  border-color: var(--glass-border-hover);
-  box-shadow: 0 0 0 1px var(--glass-border-hover), 0 20px 60px -20px var(--glow-cyan);
-}
-
-.glass-strong {
-  background: rgba(13, 19, 34, 0.6);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid var(--glass-border);
-}
-
-html.light .glass-strong {
-  background: rgba(255, 255, 255, 0.8);
-}
-
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, #00d4ff 0%, #00ffa3 50%, #00d4ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.gradient-text-warm {
-  background: linear-gradient(135deg, #ffffff 0%, #9ba8c0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-html.light .gradient-text-warm {
-  background: linear-gradient(135deg, #0a1628 0%, #475569 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Buttons */
-.btn-primary {
-  position: relative;
-  background: linear-gradient(135deg, #00d4ff, #0099cc);
-  color: #001824;
-  font-weight: 600;
-  padding: 14px 28px;
-  border-radius: 14px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.3), 0 10px 30px -10px rgba(0, 212, 255, 0.5);
-  overflow: hidden;
-}
-
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, #00ffa3, #00d4ff);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.5), 0 20px 40px -10px rgba(0, 212, 255, 0.6);
-}
-
-.btn-primary:hover::before { opacity: 1; }
-.btn-primary > * { position: relative; z-index: 1; }
-
-.btn-secondary {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  color: var(--text-primary);
-  font-weight: 600;
-  padding: 14px 28px;
-  border-radius: 14px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.btn-secondary:hover {
-  border-color: var(--glass-border-hover);
-  background: rgba(0, 212, 255, 0.05);
-  transform: translateY(-2px);
-}
-
-/* ECG line animation */
-.ecg-path {
-  stroke-dasharray: 2000;
-  stroke-dashoffset: 2000;
-  animation: ecg-draw 4s linear infinite;
-}
-
-@keyframes ecg-draw {
-  to { stroke-dashoffset: -2000; }
-}
-
-/* Pulse animations */
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 59, 92, 0.6), 0 0 30px rgba(255, 59, 92, 0.3); }
-  50% { box-shadow: 0 0 0 20px rgba(255, 59, 92, 0), 0 0 50px rgba(255, 59, 92, 0.5); }
-}
-
-.pulse-sos {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.3); opacity: 0.7; }
-}
-
-.pulse-dot { animation: pulse-dot 1.5s ease-in-out infinite; }
-
-/* Floating animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
-}
-
-.float-1 { animation: float 6s ease-in-out infinite; }
-.float-2 { animation: float 7s ease-in-out infinite 0.5s; }
-.float-3 { animation: float 8s ease-in-out infinite 1s; }
-
-/* Typing dots */
-@keyframes typing {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-  30% { transform: translateY(-6px); opacity: 1; }
-}
-
-.typing-dot {
-  animation: typing 1.4s ease-in-out infinite;
-}
-.typing-dot:nth-child(2) { animation-delay: 0.2s; }
-.typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-/* Scroll reveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.reveal.revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Feature card icon glow */
-.feature-icon {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.feature-card:hover .feature-icon {
-  transform: scale(1.1) rotate(-5deg);
-  filter: drop-shadow(0 0 12px var(--glow-cyan));
-}
-
-/* Timeline progress */
-.timeline-line {
-  background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
-  background-size: 200% 100%;
-  animation: timeline-flow 3s linear infinite;
-}
-
-@keyframes timeline-flow {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-/* Health score ring */
-.score-ring {
-  transform: rotate(-90deg);
-}
-
-.score-ring circle {
-  transition: stroke-dashoffset 2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Chart line draw */
-.chart-path {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  animation: chart-draw 3s ease-out forwards;
-}
-
-@keyframes chart-draw {
-  to { stroke-dashoffset: 0; }
-}
-
-/* Carousel */
-.carousel-track {
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Shimmer */
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-.shimmer {
-  background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.15), transparent);
-  background-size: 200% 100%;
-  animation: shimmer 2s linear infinite;
-}
-
-/* Nav blur on scroll */
-.nav-scrolled {
-  background: rgba(7, 11, 21, 0.8);
-  backdrop-filter: blur(20px) saturate(150%);
-  border-bottom: 1px solid var(--glass-border);
-}
-
-html.light .nav-scrolled {
-  background: rgba(244, 247, 252, 0.8);
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-base); }
-::-webkit-scrollbar-thumb { background: rgba(0, 212, 255, 0.2); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(0, 212, 255, 0.4); }
-
-/* Selection */
-::selection {
-  background: rgba(0, 212, 255, 0.3);
-  color: #fff;
-}
-
-/* Emergency pulse background */
-.emergency-bg {
-  background: 
-    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255, 59, 92, 0.15), transparent 70%),
-    radial-gradient(ellipse 40% 60% at 80% 20%, rgba(255, 100, 100, 0.08), transparent 70%);
-}
-
-@keyframes emergency-pulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-
-.emergency-pulse { animation: emergency-pulse 2s ease-in-out infinite; }
-
-/* Mobile menu */
-.mobile-menu {
-  transform: translateX(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.mobile-menu.open { transform: translateX(0); }
-
-/* Risk bar */
-.risk-bar {
-  background: linear-gradient(90deg, #00ffa3 0%, #ffb800 50%, #ff3b5c 100%);
-  position: relative;
-}
-
-.risk-indicator {
-  position: absolute;
-  top: -4px;
-  width: 4px;
-  height: 16px;
-  background: white;
-  border-radius: 2px;
-  box-shadow: 0 0 10px rgba(255,255,255,0.8);
-  transition: left 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Glow orb */
-.glow-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  pointer-events: none;
-  opacity: 0.4;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
+  body {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #0f172a;
+    background: #ffffff;
   }
-}
+
+  /* Subtle fade-up on scroll (minimal) */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .fade-up.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Soft underline accent */
+  .underline-accent {
+    background-image: linear-gradient(120deg, #dbeafe 0%, #dbeafe 100%);
+    background-repeat: no-repeat;
+    background-size: 100% 35%;
+    background-position: 0 88%;
+    padding: 0 4px;
+  }
+
+  /* Card hover */
+  .card-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px -2px rgba(15, 23, 42, 0.08), 0 16px 40px -8px rgba(37, 99, 235, 0.12);
+    border-color: #bfdbfe;
+  }
+
+  /* Button transitions */
+  .btn-primary {
+    transition: all 0.2s ease;
+  }
+  .btn-primary:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px -2px rgba(37, 99, 235, 0.32);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-secondary {
+    transition: all 0.2s ease;
+  }
+  .btn-secondary:hover {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+  }
+
+  /* Pulse dot for live indicators */
+  @keyframes soft-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+  }
+  .live-dot {
+    animation: soft-pulse 2s ease-in-out infinite;
+  }
+
+  /* Phone SOS button press */
+  .sos-btn {
+    transition: all 0.2s ease;
+  }
+  .sos-btn:hover {
+    background-color: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px -4px rgba(220, 38, 38, 0.4);
+  }
+  .sos-btn:active {
+    transform: translateY(0);
+  }
+
+  /* Subtle grid background for hero */
+  .hero-grid-bg {
+    background-image:
+      linear-gradient(to right, rgba(37, 99, 235, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(37, 99, 235, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 70% 40%, black 30%, transparent 75%);
+    mask-image: radial-gradient(ellipse 80% 60% at 70% 40%, black 30%, transparent 75%);
+  }
+
+  /* Selection */
+  ::selection {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: #f8fafc; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; border: 2px solid #f8fafc; }
+  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+  /* Focus states for accessibility */
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 </style>
 </head>
-<body>
+<body class="text-ink-900">
 
-<div class="bg-atmosphere"></div>
-<canvas id="particle-canvas"></canvas>
+<!-- ============ NAVBAR ============ -->
+<nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-ink-100">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 lg:h-18">
 
-<!-- Navigation -->
-<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8">
-    <div class="flex items-center justify-between h-20">
-      <a href="#" class="flex items-center gap-3 group">
-        <div class="relative w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-teal-400 flex items-center justify-center shadow-lg shadow-cyan-500/30">
-          <svg viewBox="0 0 24 24" class="w-6 h-6 text-slate-900" fill="none" stroke="currentColor" stroke-width="2.5">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center shadow-soft">
+          <svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M3 12h4l2-6 4 12 2-6h6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <div class="absolute inset-0 rounded-xl bg-cyan-400 blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
         </div>
         <div>
-          <div class="font-display font-bold text-lg leading-none">MediCore <span class="gradient-text">AI</span></div>
-          <div class="text-[10px] tracking-[0.2em] text-slate-500 uppercase mt-1">Healthcare Intelligence</div>
+          <div class="font-bold text-[17px] leading-none tracking-tight text-ink-900">MediCore <span class="text-brand-600">AI</span></div>
+          <div class="text-[10px] tracking-[0.15em] text-ink-400 uppercase mt-1 font-medium">Healthcare Platform</div>
         </div>
       </a>
 
+      <!-- Desktop nav -->
       <div class="hidden lg:flex items-center gap-1">
-        <a href="#features" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-cyan-300 transition-colors">Features</a>
-        <a href="#how-it-works" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-cyan-300 transition-colors">How It Works</a>
-        <a href="#dashboard" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-cyan-300 transition-colors">Dashboard</a>
-        <a href="#testimonials" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-cyan-300 transition-colors">Reviews</a>
-        <a href="#emergency" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-cyan-300 transition-colors">Emergency</a>
+        <a href="#features" class="px-3.5 py-2 text-sm font-medium text-ink-700 hover:text-brand-600 transition-colors">Features</a>
+        <a href="#how-it-works" class="px-3.5 py-2 text-sm font-medium text-ink-700 hover:text-brand-600 transition-colors">How It Works</a>
+        <a href="#services" class="px-3.5 py-2 text-sm font-medium text-ink-700 hover:text-brand-600 transition-colors">Specialties</a>
+        <a href="#testimonials" class="px-3.5 py-2 text-sm font-medium text-ink-700 hover:text-brand-600 transition-colors">Reviews</a>
+        <a href="#emergency" class="px-3.5 py-2 text-sm font-medium text-ink-700 hover:text-brand-600 transition-colors">Emergency</a>
       </div>
 
+      <!-- Right actions -->
       <div class="flex items-center gap-3">
-        <button id="theme-toggle" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover:border-cyan-400/30 transition-colors" aria-label="Toggle theme">
-          <i data-lucide="moon" class="w-4 h-4 text-cyan-300 dark-icon"></i>
-          <i data-lucide="sun" class="w-4 h-4 text-amber-400 light-icon hidden"></i>
-        </button>
-        <button class="hidden md:flex btn-primary text-sm items-center gap-2">
-          <i data-lucide="activity" class="w-4 h-4"></i>
-          Start Diagnosis
-        </button>
-        <button id="mobile-toggle" class="lg:hidden w-10 h-10 rounded-xl glass flex items-center justify-center" aria-label="Menu">
-          <i data-lucide="menu" class="w-5 h-5"></i>
+        <a href="#" class="hidden md:inline-flex text-sm font-medium text-ink-700 hover:text-brand-600 transition-colors">Sign in</a>
+        <a href="#" class="btn-primary inline-flex items-center gap-1.5 bg-brand-600 text-white text-sm font-semibold px-4 py-2.5 rounded-lg shadow-btn">
+          Get Started
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+        <button id="mobile-menu-btn" class="lg:hidden w-10 h-10 rounded-lg border border-ink-200 flex items-center justify-center" aria-label="Open menu">
+          <i data-lucide="menu" class="w-5 h-5 text-ink-700"></i>
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden lg:hidden border-t border-ink-100 bg-white">
+    <div class="px-5 py-4 space-y-1">
+      <a href="#features" class="mobile-link block px-3 py-2.5 rounded-lg text-sm font-medium text-ink-700 hover:bg-ink-50">Features</a>
+      <a href="#how-it-works" class="mobile-link block px-3 py-2.5 rounded-lg text-sm font-medium text-ink-700 hover:bg-ink-50">How It Works</a>
+      <a href="#services" class="mobile-link block px-3 py-2.5 rounded-lg text-sm font-medium text-ink-700 hover:bg-ink-50">Specialties</a>
+      <a href="#testimonials" class="mobile-link block px-3 py-2.5 rounded-lg text-sm font-medium text-ink-700 hover:bg-ink-50">Reviews</a>
+      <a href="#emergency" class="mobile-link block px-3 py-2.5 rounded-lg text-sm font-medium text-ink-700 hover:bg-ink-50">Emergency</a>
+      <a href="#" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-ink-700 hover:bg-ink-50">Sign in</a>
     </div>
   </div>
 </nav>
 
-<!-- Mobile Menu -->
-<div id="mobile-menu" class="mobile-menu fixed inset-0 z-40 lg:hidden">
-  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" id="mobile-menu-overlay"></div>
-  <div class="absolute right-0 top-0 bottom-0 w-80 max-w-full glass-strong p-8 pt-24">
-    <div class="flex flex-col gap-2">
-      <a href="#features" class="mobile-link px-4 py-3 rounded-xl hover:bg-white/5 transition-colors">Features</a>
-      <a href="#how-it-works" class="mobile-link px-4 py-3 rounded-xl hover:bg-white/5 transition-colors">How It Works</a>
-      <a href="#dashboard" class="mobile-link px-4 py-3 rounded-xl hover:bg-white/5 transition-colors">Dashboard</a>
-      <a href="#testimonials" class="mobile-link px-4 py-3 rounded-xl hover:bg-white/5 transition-colors">Reviews</a>
-      <a href="#emergency" class="mobile-link px-4 py-3 rounded-xl hover:bg-white/5 transition-colors">Emergency</a>
-      <button class="btn-primary mt-4 flex items-center justify-center gap-2">
-        <i data-lucide="activity" class="w-4 h-4"></i>
-        Start Diagnosis
-      </button>
-    </div>
-  </div>
-</div>
+<!-- ============ HERO ============ -->
+<section class="relative overflow-hidden bg-white">
+  <div class="absolute inset-0 hero-grid-bg"></div>
 
-<!-- Hero Section -->
-<section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
-  <canvas id="ecg-canvas" class="absolute inset-0 w-full h-full pointer-events-none"></canvas>
-  
-  <div class="glow-orb w-[500px] h-[500px] bg-cyan-500 top-20 -left-40"></div>
-  <div class="glow-orb w-[400px] h-[400px] bg-purple-500 bottom-20 right-0"></div>
+  <div class="relative max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-16 lg:py-24">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
 
-  <div class="relative max-w-7xl mx-auto px-6 lg:px-8 w-full">
-    <div class="grid lg:grid-cols-12 gap-12 items-center">
-      
-      <!-- Left: Content -->
-      <div class="lg:col-span-7 z-10">
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 reveal">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
+      <!-- Left content -->
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-50 border border-brand-100 mb-6 fade-up">
+          <span class="flex h-2 w-2">
+            <span class="live-dot inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
           </span>
-          <span class="text-xs font-medium text-slate-300 tracking-wide">AI-Powered Healthcare · HIPAA Compliant</span>
+          <span class="text-xs font-medium text-brand-700">Trusted by 500+ clinics & 2M+ patients</span>
         </div>
 
-        <h1 class="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight mb-6 reveal" style="transition-delay: 0.1s">
-          Your AI Doctor,<br>
-          <span class="gradient-text">Anytime.</span> <span class="gradient-text">Anywhere.</span>
+        <h1 class="font-bold text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.1] tracking-tight text-ink-900 mb-6 fade-up">
+          Smarter Healthcare with <span class="underline-accent text-brand-700">AI Assistance</span>
         </h1>
 
-        <p class="text-lg md:text-xl text-slate-400 max-w-xl mb-10 leading-relaxed reveal" style="transition-delay: 0.2s">
-          AI-powered healthcare for faster, smarter, safer medical decisions. Diagnose symptoms, consult doctors, and predict emergencies — all in one intelligent platform.
+        <p class="text-lg text-ink-500 leading-relaxed max-w-xl mb-8 fade-up">
+          Get fast, reliable, and secure medical guidance anytime, anywhere. MediCore AI connects you with verified doctors, manages your health records, and provides AI-powered insights — all in one trusted platform.
         </p>
 
-        <div class="flex flex-wrap gap-4 mb-12 reveal" style="transition-delay: 0.3s">
-          <button class="btn-primary flex items-center gap-2 group">
-            <i data-lucide="activity" class="w-5 h-5 group-hover:rotate-12 transition-transform"></i>
-            Start Diagnosis
-          </button>
-          <button class="btn-secondary flex items-center gap-2 group">
-            <i data-lucide="video" class="w-5 h-5 text-cyan-300 group-hover:scale-110 transition-transform"></i>
-            Talk to AI Doctor
-          </button>
+        <div class="flex flex-wrap gap-3 fade-up">
+          <a href="#" class="btn-primary inline-flex items-center gap-2 bg-brand-600 text-white font-semibold px-6 py-3.5 rounded-xl shadow-btn">
+            <i data-lucide="arrow-right-circle" class="w-5 h-5"></i>
+            Get Started
+          </a>
+          <a href="#" class="btn-secondary inline-flex items-center gap-2 bg-white text-ink-900 font-semibold px-6 py-3.5 rounded-xl border border-ink-200">
+            <i data-lucide="calendar" class="w-5 h-5 text-brand-600"></i>
+            Book Consultation
+          </a>
         </div>
 
-        <!-- Trust indicators -->
-        <div class="flex flex-wrap items-center gap-6 reveal" style="transition-delay: 0.4s">
-          <div class="flex items-center gap-2">
-            <i data-lucide="shield-check" class="w-4 h-4 text-cyan-400"></i>
-            <span class="text-xs text-slate-400">HIPAA Compliant</span>
+        <!-- Trust strip -->
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-10 fade-up">
+          <div class="flex items-center gap-2 text-sm text-ink-500">
+            <i data-lucide="shield-check" class="w-4 h-4 text-brand-600"></i>
+            <span>HIPAA Compliant</span>
           </div>
-          <div class="flex items-center gap-2">
-            <i data-lucide="lock" class="w-4 h-4 text-cyan-400"></i>
-            <span class="text-xs text-slate-400">End-to-End Encrypted</span>
+          <div class="flex items-center gap-2 text-sm text-ink-500">
+            <i data-lucide="lock" class="w-4 h-4 text-brand-600"></i>
+            <span>End-to-end Encrypted</span>
           </div>
-          <div class="flex items-center gap-2">
-            <div class="flex -space-x-2">
-              <img src="https://picsum.photos/seed/doc1/40/40.jpg" class="w-6 h-6 rounded-full border-2 border-slate-900" alt="">
-              <img src="https://picsum.photos/seed/doc2/40/40.jpg" class="w-6 h-6 rounded-full border-2 border-slate-900" alt="">
-              <img src="https://picsum.photos/seed/doc3/40/40.jpg" class="w-6 h-6 rounded-full border-2 border-slate-900" alt="">
-            </div>
-            <span class="text-xs text-slate-400">2M+ patients served</span>
+          <div class="flex items-center gap-2 text-sm text-ink-500">
+            <i data-lucide="badge-check" class="w-4 h-4 text-brand-600"></i>
+            <span>Verified Doctors</span>
           </div>
         </div>
       </div>
 
-      <!-- Right: Floating UI Cards -->
-      <div class="lg:col-span-5 relative h-[500px] lg:h-[600px] hidden md:block reveal" style="transition-delay: 0.3s">
-        
-        <!-- Heart Rate Card -->
-        <div class="absolute top-0 right-0 w-72 glass-strong rounded-3xl p-5 float-1 z-20">
-          <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center gap-2">
-              <div class="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center">
-                <i data-lucide="heart-pulse" class="w-4 h-4 text-red-400"></i>
-              </div>
-              <span class="text-sm font-medium">Heart Rate</span>
-            </div>
-            <span class="text-xs text-slate-500 font-mono">LIVE</span>
-          </div>
-          <div class="flex items-baseline gap-2 mb-3">
-            <span class="text-4xl font-display font-bold">72</span>
-            <span class="text-sm text-slate-400">BPM</span>
-            <span class="text-xs text-emerald-400 ml-auto flex items-center gap-1">
-              <i data-lucide="trending-up" class="w-3 h-3"></i>
-              Normal
-            </span>
-          </div>
-          <svg viewBox="0 0 200 40" class="w-full h-10">
-            <path d="M0,20 L40,20 L45,20 L48,10 L52,30 L55,20 L80,20 L85,20 L88,5 L92,35 L95,20 L120,20 L125,20 L128,12 L132,28 L135,20 L160,20 L165,20 L168,8 L172,32 L175,20 L200,20" 
-              stroke="#ff3b5c" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
+      <!-- Right: Illustration card -->
+      <div class="relative fade-up">
+        <div class="relative bg-white rounded-3xl border border-ink-100 shadow-card p-6 sm:p-8">
 
-        <!-- AI Diagnosis Card -->
-        <div class="absolute top-44 left-0 w-80 glass-strong rounded-3xl p-5 float-2 z-30">
-          <div class="flex items-center gap-2 mb-4">
-            <div class="w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center">
-              <i data-lucide="brain-circuit" class="w-4 h-4 text-cyan-400"></i>
+          <!-- Dashboard mockup -->
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-xl bg-brand-100 flex items-center justify-center">
+                <i data-lucide="user-round" class="w-5 h-5 text-brand-700"></i>
+              </div>
+              <div>
+                <div class="text-sm font-semibold text-ink-900">Welcome back, Sarah</div>
+                <div class="text-xs text-ink-400">Patient ID · #MC-2847</div>
+              </div>
             </div>
-            <div>
-              <div class="text-sm font-medium">AI Diagnosis</div>
-              <div class="text-[10px] text-slate-500">Analysis complete</div>
+            <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">Healthy</span>
+          </div>
+
+          <!-- Health stats grid -->
+          <div class="grid grid-cols-3 gap-3 mb-6">
+            <div class="bg-ink-50 rounded-xl p-3.5 border border-ink-100">
+              <div class="flex items-center gap-1.5 mb-2">
+                <i data-lucide="heart-pulse" class="w-3.5 h-3.5 text-rose-500"></i>
+                <span class="text-[10px] font-medium text-ink-400 uppercase tracking-wide">Heart</span>
+              </div>
+              <div class="text-xl font-bold text-ink-900">72<span class="text-xs text-ink-400 font-normal ml-1">bpm</span></div>
             </div>
-            <div class="ml-auto flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot"></span>
-              <span class="text-[10px] text-emerald-400">VERIFIED</span>
+            <div class="bg-ink-50 rounded-xl p-3.5 border border-ink-100">
+              <div class="flex items-center gap-1.5 mb-2">
+                <i data-lucide="droplets" class="w-3.5 h-3.5 text-sky-500"></i>
+                <span class="text-[10px] font-medium text-ink-400 uppercase tracking-wide">Pressure</span>
+              </div>
+              <div class="text-xl font-bold text-ink-900">120<span class="text-xs text-ink-400 font-normal ml-1">/80</span></div>
+            </div>
+            <div class="bg-ink-50 rounded-xl p-3.5 border border-ink-100">
+              <div class="flex items-center gap-1.5 mb-2">
+                <i data-lucide="thermometer" class="w-3.5 h-3.5 text-amber-500"></i>
+                <span class="text-[10px] font-medium text-ink-400 uppercase tracking-wide">Temp</span>
+              </div>
+              <div class="text-xl font-bold text-ink-900">98.6<span class="text-xs text-ink-400 font-normal ml-1">°F</span></div>
             </div>
           </div>
-          
-          <div class="space-y-2.5">
-            <div class="flex items-center justify-between text-xs">
-              <span class="text-slate-400">Common Cold</span>
-              <div class="flex items-center gap-2">
-                <div class="w-24 h-1.5 rounded-full bg-slate-700/50 overflow-hidden">
-                  <div class="h-full bg-gradient-to-r from-cyan-400 to-teal-400 rounded-full" style="width: 87%"></div>
-                </div>
-                <span class="font-mono text-cyan-300">87%</span>
+
+          <!-- AI insight card -->
+          <div class="bg-brand-50 rounded-2xl p-4 border border-brand-100 mb-4">
+            <div class="flex items-start gap-3">
+              <div class="w-9 h-9 rounded-lg bg-white flex items-center justify-center flex-shrink-0 border border-brand-100">
+                <i data-lucide="sparkles" class="w-4 h-4 text-brand-600"></i>
               </div>
-            </div>
-            <div class="flex items-center justify-between text-xs">
-              <span class="text-slate-400">Seasonal Allergy</span>
-              <div class="flex items-center gap-2">
-                <div class="w-24 h-1.5 rounded-full bg-slate-700/50 overflow-hidden">
-                  <div class="h-full bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full" style="width: 64%"></div>
-                </div>
-                <span class="font-mono text-cyan-300">64%</span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between text-xs">
-              <span class="text-slate-400">Influenza</span>
-              <div class="flex items-center gap-2">
-                <div class="w-24 h-1.5 rounded-full bg-slate-700/50 overflow-hidden">
-                  <div class="h-full bg-gradient-to-r from-amber-400 to-orange-400 rounded-full" style="width: 23%"></div>
-                </div>
-                <span class="font-mono text-amber-300">23%</span>
+              <div>
+                <div class="text-sm font-semibold text-ink-900 mb-1">AI Health Insight</div>
+                <p class="text-xs text-ink-500 leading-relaxed">Your vitals look great. Consider adding 15 minutes of walking to your daily routine for better cardiovascular health.</p>
               </div>
             </div>
           </div>
 
-          <div class="mt-4 pt-4 border-t border-white/5 flex items-center gap-2 text-xs">
-            <i data-lucide="sparkles" class="w-3 h-3 text-cyan-400"></i>
-            <span class="text-slate-400">Rest, hydrate, monitor for 48h</span>
+          <!-- Upcoming appointment -->
+          <div class="rounded-2xl border border-ink-100 p-4">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold text-ink-700 uppercase tracking-wide">Upcoming Appointment</span>
+              <span class="text-xs text-ink-400">Tomorrow, 10:30 AM</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <img src="https://picsum.photos/seed/doctor-sarah/80/80.jpg" class="w-10 h-10 rounded-full object-cover border border-ink-100" alt="Dr. Sarah Chen">
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-semibold text-ink-900 truncate">Dr. Sarah Chen</div>
+                <div class="text-xs text-ink-400">Cardiology · Video Call</div>
+              </div>
+              <button class="w-9 h-9 rounded-lg bg-brand-600 text-white flex items-center justify-center hover:bg-brand-700 transition-colors">
+                <i data-lucide="video" class="w-4 h-4"></i>
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- Health Score Card -->
-        <div class="absolute bottom-0 right-8 w-64 glass-strong rounded-3xl p-5 float-3 z-20">
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-sm font-medium">Health Score</span>
-            <i data-lucide="arrow-up-right" class="w-4 h-4 text-emerald-400"></i>
+        <!-- Floating badge -->
+        <div class="absolute -bottom-4 -left-4 sm:-left-6 bg-white rounded-2xl border border-ink-100 shadow-card p-3.5 hidden sm:flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center border border-emerald-100">
+            <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i>
           </div>
-          <div class="flex items-center justify-center my-4">
-            <div class="relative w-32 h-32">
-              <svg class="score-ring w-full h-full" viewBox="0 0 120 120">
-                <circle cx="60" cy="60" r="52" stroke="rgba(255,255,255,0.05)" stroke-width="8" fill="none"/>
-                <circle id="health-score-circle" cx="60" cy="60" r="52" stroke="url(#scoreGradient)" stroke-width="8" fill="none" 
-                  stroke-dasharray="326.7" stroke-dashoffset="326.7" stroke-linecap="round"/>
-                <defs>
-                  <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#00ffa3"/>
-                    <stop offset="100%" stop-color="#00d4ff"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-              <div class="absolute inset-0 flex flex-col items-center justify-center">
-                <span class="text-3xl font-display font-bold" id="health-score-value">0</span>
-                <span class="text-[10px] text-slate-500 uppercase tracking-wider">Excellent</span>
-              </div>
-            </div>
-          </div>
-          <div class="flex items-center justify-between text-xs">
-            <span class="text-slate-400">vs last week</span>
-            <span class="text-emerald-400 font-medium">+5.2%</span>
+          <div>
+            <div class="text-xs font-semibold text-ink-900">Consultation Complete</div>
+            <div class="text-[11px] text-ink-400">Prescription sent to pharmacy</div>
           </div>
         </div>
-
       </div>
+
     </div>
-  </div>
-
-  <!-- Scroll indicator -->
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-500">
-    <span class="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
-    <div class="w-px h-12 bg-gradient-to-b from-cyan-400 to-transparent"></div>
   </div>
 </section>
 
-<!-- Stats Bar -->
-<section class="relative py-16 border-y border-white/5">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-      <div class="reveal text-center md:text-left">
-        <div class="font-display text-4xl md:text-5xl font-bold gradient-text mb-2" data-counter="2">0</div>
-        <div class="text-xs text-slate-500 uppercase tracking-wider">Million+ Patients</div>
+<!-- ============ STATS BAR ============ -->
+<section class="border-y border-ink-100 bg-ink-50">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-10">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="text-center lg:text-left fade-up">
+        <div class="text-3xl lg:text-4xl font-bold text-brand-700 mb-1">2M+</div>
+        <div class="text-sm text-ink-500">Patients Served</div>
       </div>
-      <div class="reveal text-center md:text-left" style="transition-delay: 0.1s">
-        <div class="font-display text-4xl md:text-5xl font-bold gradient-text mb-2" data-counter="99.2">0</div>
-        <div class="text-xs text-slate-500 uppercase tracking-wider">Diagnostic Accuracy %</div>
+      <div class="text-center lg:text-left fade-up">
+        <div class="text-3xl lg:text-4xl font-bold text-brand-700 mb-1">500+</div>
+        <div class="text-sm text-ink-500">Verified Doctors</div>
       </div>
-      <div class="reveal text-center md:text-left" style="transition-delay: 0.2s">
-        <div class="font-display text-4xl md:text-5xl font-bold gradient-text mb-2" data-counter="24">0</div>
-        <div class="text-xs text-slate-500 uppercase tracking-wider">/7 AI Availability</div>
+      <div class="text-center lg:text-left fade-up">
+        <div class="text-3xl lg:text-4xl font-bold text-brand-700 mb-1">98%</div>
+        <div class="text-sm text-ink-500">Patient Satisfaction</div>
       </div>
-      <div class="reveal text-center md:text-left" style="transition-delay: 0.3s">
-        <div class="font-display text-4xl md:text-5xl font-bold gradient-text mb-2" data-counter="180">0</div>
-        <div class="text-xs text-slate-500 uppercase tracking-wider">Countries Served</div>
+      <div class="text-center lg:text-left fade-up">
+        <div class="text-3xl lg:text-4xl font-bold text-brand-700 mb-1">24/7</div>
+        <div class="text-sm text-ink-500">AI Support Available</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Features Section -->
-<section id="features" class="relative py-32">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8">
-    <div class="text-center max-w-3xl mx-auto mb-20">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass mb-6 reveal">
-        <i data-lucide="layers" class="w-3 h-3 text-cyan-400"></i>
-        <span class="text-xs font-medium tracking-wide text-slate-300">CAPABILITIES</span>
-      </div>
-      <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 reveal" style="transition-delay: 0.1s">
-        Everything you need for<br>
-        <span class="gradient-text">intelligent healthcare</span>
+<!-- ============ FEATURES ============ -->
+<section id="features" class="py-20 lg:py-28">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+
+    <div class="max-w-2xl mx-auto text-center mb-16">
+      <span class="text-xs font-semibold tracking-[0.2em] uppercase text-brand-600 fade-up">Features</span>
+      <h2 class="font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink-900 mt-3 mb-4 fade-up">
+        Everything you need for better health
       </h2>
-      <p class="text-lg text-slate-400 reveal" style="transition-delay: 0.2s">
-        Six powerful AI-driven features that put a complete medical ecosystem in your pocket.
+      <p class="text-lg text-ink-500 fade-up">
+        A complete healthcare platform built for patients, doctors, and clinics — secure, simple, and reliable.
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+
       <!-- Feature 1 -->
-      <div class="feature-card glass rounded-3xl p-8 reveal" style="transition-delay: 0s">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-400/20 flex items-center justify-center mb-6 feature-icon">
-          <i data-lucide="brain" class="w-7 h-7 text-cyan-400"></i>
+      <div class="card-hover bg-white rounded-2xl border border-ink-100 p-7 fade-up">
+        <div class="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center mb-5 border border-brand-100">
+          <i data-lucide="brain" class="w-6 h-6 text-brand-600"></i>
         </div>
-        <h3 class="font-display text-xl font-semibold mb-3">AI Symptom Checker</h3>
-        <p class="text-sm text-slate-400 leading-relaxed mb-4">
-          Advanced AI analyzes your symptoms in seconds using medical knowledge from thousands of peer-reviewed sources.
+        <h3 class="text-lg font-semibold text-ink-900 mb-2">AI Symptom Checker</h3>
+        <p class="text-sm text-ink-500 leading-relaxed">
+          Describe your symptoms and get an instant AI-powered preliminary assessment with suggested next steps.
         </p>
-        <div class="flex items-center gap-2 text-xs text-cyan-300 font-medium">
-          <span>Learn more</span>
-          <i data-lucide="arrow-right" class="w-3 h-3"></i>
-        </div>
       </div>
 
       <!-- Feature 2 -->
-      <div class="feature-card glass rounded-3xl p-8 reveal" style="transition-delay: 0.1s">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-400/20 flex items-center justify-center mb-6 feature-icon">
-          <i data-lucide="message-circle-heart" class="w-7 h-7 text-emerald-400"></i>
+      <div class="card-hover bg-white rounded-2xl border border-ink-100 p-7 fade-up">
+        <div class="w-12 h-12 rounded-xl bg-sky-50 flex items-center justify-center mb-5 border border-sky-100">
+          <i data-lucide="video" class="w-6 h-6 text-sky-600"></i>
         </div>
-        <h3 class="font-display text-xl font-semibold mb-3">24/7 Online Doctor Chat</h3>
-        <p class="text-sm text-slate-400 leading-relaxed mb-4">
-          Connect with board-certified physicians anytime. Average response time under 2 minutes, day or night.
+        <h3 class="text-lg font-semibold text-ink-900 mb-2">Online Doctor Consultation</h3>
+        <p class="text-sm text-ink-500 leading-relaxed">
+          Connect with verified doctors via video, voice, or chat — from the comfort of your home, in minutes.
         </p>
-        <div class="flex items-center gap-2 text-xs text-emerald-300 font-medium">
-          <span>Learn more</span>
-          <i data-lucide="arrow-right" class="w-3 h-3"></i>
-        </div>
       </div>
 
       <!-- Feature 3 -->
-      <div class="feature-card glass rounded-3xl p-8 reveal" style="transition-delay: 0.2s">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-indigo-500/20 border border-purple-400/20 flex items-center justify-center mb-6 feature-icon">
-          <i data-lucide="folder-lock" class="w-7 h-7 text-purple-400"></i>
+      <div class="card-hover bg-white rounded-2xl border border-ink-100 p-7 fade-up">
+        <div class="w-12 h-12 rounded-xl bg-violet-50 flex items-center justify-center mb-5 border border-violet-100">
+          <i data-lucide="folder-lock" class="w-6 h-6 text-violet-600"></i>
         </div>
-        <h3 class="font-display text-xl font-semibold mb-3">Smart Health Records</h3>
-        <p class="text-sm text-slate-400 leading-relaxed mb-4">
-          Your complete medical history, securely stored and instantly accessible. HIPAA-compliant encryption.
+        <h3 class="text-lg font-semibold text-ink-900 mb-2">Digital Health Records</h3>
+        <p class="text-sm text-ink-500 leading-relaxed">
+          Access your complete medical history, lab reports, and prescriptions anytime, securely stored in one place.
         </p>
-        <div class="flex items-center gap-2 text-xs text-purple-300 font-medium">
-          <span>Learn more</span>
-          <i data-lucide="arrow-right" class="w-3 h-3"></i>
-        </div>
       </div>
 
       <!-- Feature 4 -->
-      <div class="feature-card glass rounded-3xl p-8 reveal" style="transition-delay: 0s">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-400/20 flex items-center justify-center mb-6 feature-icon">
-          <i data-lucide="file-text" class="w-7 h-7 text-blue-400"></i>
+      <div class="card-hover bg-white rounded-2xl border border-ink-100 p-7 fade-up">
+        <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mb-5 border border-emerald-100">
+          <i data-lucide="file-text" class="w-6 h-6 text-emerald-600"></i>
         </div>
-        <h3 class="font-display text-xl font-semibold mb-3">Prescription Generator</h3>
-        <p class="text-sm text-slate-400 leading-relaxed mb-4">
-          AI-assisted prescriptions with drug interaction checks and automatic pharmacy routing near you.
+        <h3 class="text-lg font-semibold text-ink-900 mb-2">Prescription Management</h3>
+        <p class="text-sm text-ink-500 leading-relaxed">
+          Receive digital prescriptions, set medication reminders, and reorder medicines from nearby pharmacies.
         </p>
-        <div class="flex items-center gap-2 text-xs text-blue-300 font-medium">
-          <span>Learn more</span>
-          <i data-lucide="arrow-right" class="w-3 h-3"></i>
-        </div>
       </div>
 
       <!-- Feature 5 -->
-      <div class="feature-card glass rounded-3xl p-8 reveal" style="transition-delay: 0.1s">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-500/20 to-rose-500/20 border border-red-400/20 flex items-center justify-center mb-6 feature-icon">
-          <i data-lucide="siren" class="w-7 h-7 text-red-400"></i>
+      <div class="card-hover bg-white rounded-2xl border border-ink-100 p-7 fade-up">
+        <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center mb-5 border border-amber-100">
+          <i data-lucide="calendar-check" class="w-6 h-6 text-amber-600"></i>
         </div>
-        <h3 class="font-display text-xl font-semibold mb-3">Emergency Risk Alerts</h3>
-        <p class="text-sm text-slate-400 leading-relaxed mb-4">
-          Predictive AI detects early warning signs of heart attacks, strokes, and other critical events.
+        <h3 class="text-lg font-semibold text-ink-900 mb-2">Appointment Booking</h3>
+        <p class="text-sm text-ink-500 leading-relaxed">
+          Schedule, reschedule, or cancel appointments with specialists in seconds. Smart reminders keep you on track.
         </p>
-        <div class="flex items-center gap-2 text-xs text-red-300 font-medium">
-          <span>Learn more</span>
-          <i data-lucide="arrow-right" class="w-3 h-3"></i>
-        </div>
       </div>
 
       <!-- Feature 6 -->
-      <div class="feature-card glass rounded-3xl p-8 reveal" style="transition-delay: 0.2s">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-400/20 flex items-center justify-center mb-6 feature-icon">
-          <i data-lucide="watch" class="w-7 h-7 text-amber-400"></i>
+      <div class="card-hover bg-white rounded-2xl border border-ink-100 p-7 fade-up">
+        <div class="w-12 h-12 rounded-xl bg-rose-50 flex items-center justify-center mb-5 border border-rose-100">
+          <i data-lucide="siren" class="w-6 h-6 text-rose-600"></i>
         </div>
-        <h3 class="font-display text-xl font-semibold mb-3">Wearable Integration</h3>
-        <p class="text-sm text-slate-400 leading-relaxed mb-4">
-          Sync with Apple Watch, Fitbit, and 200+ devices for real-time health monitoring and insights.
+        <h3 class="text-lg font-semibold text-ink-900 mb-2">Emergency Assistance</h3>
+        <p class="text-sm text-ink-500 leading-relaxed">
+          One-tap access to emergency services, nearest hospital routing, and instant alerts to your emergency contacts.
         </p>
-        <div class="flex items-center gap-2 text-xs text-amber-300 font-medium">
-          <span>Learn more</span>
-          <i data-lucide="arrow-right" class="w-3 h-3"></i>
-        </div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- How It Works -->
-<section id="how-it-works" class="relative py-32">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8">
-    <div class="text-center max-w-3xl mx-auto mb-20">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass mb-6 reveal">
-        <i data-lucide="route" class="w-3 h-3 text-cyan-400"></i>
-        <span class="text-xs font-medium tracking-wide text-slate-300">PROCESS</span>
-      </div>
-      <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 reveal" style="transition-delay: 0.1s">
-        How <span class="gradient-text">MediCore AI</span> works
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how-it-works" class="py-20 lg:py-28 bg-ink-50 border-y border-ink-100">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+
+    <div class="max-w-2xl mx-auto text-center mb-16">
+      <span class="text-xs font-semibold tracking-[0.2em] uppercase text-brand-600 fade-up">How It Works</span>
+      <h2 class="font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink-900 mt-3 mb-4 fade-up">
+        Get care in three simple steps
       </h2>
-      <p class="text-lg text-slate-400 reveal" style="transition-delay: 0.2s">
-        Three simple steps from symptom to solution, powered by advanced medical AI.
+      <p class="text-lg text-ink-500 fade-up">
+        No paperwork, no waiting rooms. Just describe what you're feeling, and we'll handle the rest.
       </p>
     </div>
 
     <div class="relative">
-      <!-- Timeline line -->
-      <div class="hidden md:block absolute top-24 left-[16%] right-[16%] h-px bg-slate-700/50">
-        <div class="absolute inset-0 timeline-line h-px"></div>
-      </div>
+      <!-- Connector line (desktop) -->
+      <div class="hidden lg:block absolute top-12 left-[16.66%] right-[16.66%] h-px bg-gradient-to-r from-transparent via-brand-200 to-transparent"></div>
 
-      <div class="grid md:grid-cols-3 gap-12 md:gap-8">
+      <div class="grid lg:grid-cols-3 gap-8 lg:gap-12">
+
         <!-- Step 1 -->
-        <div class="relative reveal">
-          <div class="flex flex-col items-center text-center">
-            <div class="relative w-20 h-20 rounded-2xl glass-strong flex items-center justify-center mb-6 z-10">
-              <i data-lucide="keyboard" class="w-8 h-8 text-cyan-400"></i>
-              <div class="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-cyan-400 text-slate-900 text-xs font-bold flex items-center justify-center font-mono">01</div>
+        <div class="relative text-center fade-up">
+          <div class="relative inline-flex">
+            <div class="w-24 h-24 rounded-2xl bg-white border border-ink-100 shadow-card flex items-center justify-center mx-auto mb-6 relative z-10">
+              <i data-lucide="message-square-plus" class="w-9 h-9 text-brand-600"></i>
             </div>
-            <h3 class="font-display text-xl font-semibold mb-3">Enter Symptoms</h3>
-            <p class="text-sm text-slate-400 leading-relaxed max-w-xs">
-              Type, speak, or select your symptoms. Our AI understands natural language and medical terminology.
-            </p>
-            <div class="mt-6 glass rounded-xl px-4 py-2 text-xs font-mono text-cyan-300">
-              "I have a headache and slight fever..."
-            </div>
+            <div class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-brand-600 text-white text-sm font-bold flex items-center justify-center z-20 shadow-btn">1</div>
+          </div>
+          <h3 class="text-xl font-semibold text-ink-900 mb-2">Enter Your Symptoms</h3>
+          <p class="text-sm text-ink-500 leading-relaxed max-w-xs mx-auto">
+            Type, speak, or select your symptoms. Our AI understands natural language and medical terms.
+          </p>
+          <div class="mt-5 inline-flex items-center gap-2 bg-white border border-ink-100 rounded-lg px-3 py-2 text-xs text-ink-500 shadow-soft">
+            <i data-lucide="quote" class="w-3 h-3 text-brand-500"></i>
+            "I've had a headache and mild fever since morning..."
           </div>
         </div>
 
         <!-- Step 2 -->
-        <div class="relative reveal" style="transition-delay: 0.2s">
-          <div class="flex flex-col items-center text-center">
-            <div class="relative w-20 h-20 rounded-2xl glass-strong flex items-center justify-center mb-6 z-10">
-              <i data-lucide="cpu" class="w-8 h-8 text-emerald-400"></i>
-              <div class="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-emerald-400 text-slate-900 text-xs font-bold flex items-center justify-center font-mono">02</div>
+        <div class="relative text-center fade-up">
+          <div class="relative inline-flex">
+            <div class="w-24 h-24 rounded-2xl bg-white border border-ink-100 shadow-card flex items-center justify-center mx-auto mb-6 relative z-10">
+              <i data-lucide="cpu" class="w-9 h-9 text-sky-600"></i>
             </div>
-            <h3 class="font-display text-xl font-semibold mb-3">AI Analysis in Real-Time</h3>
-            <p class="text-sm text-slate-400 leading-relaxed max-w-xs">
-              Our neural network cross-references your symptoms against millions of medical cases in seconds.
-            </p>
-            <div class="mt-6 glass rounded-xl px-4 py-2.5 flex items-center gap-2">
-              <div class="flex gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 typing-dot"></span>
-                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 typing-dot"></span>
-                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 typing-dot"></span>
-              </div>
-              <span class="text-xs font-mono text-slate-400">Analyzing symptoms...</span>
-            </div>
+            <div class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-sky-500 text-white text-sm font-bold flex items-center justify-center z-20 shadow-btn">2</div>
+          </div>
+          <h3 class="text-xl font-semibold text-ink-900 mb-2">AI Analysis</h3>
+          <p class="text-sm text-ink-500 leading-relaxed max-w-xs mx-auto">
+            Our medical AI analyzes your symptoms against trusted clinical knowledge to identify possible conditions.
+          </p>
+          <div class="mt-5 inline-flex items-center gap-2 bg-white border border-ink-100 rounded-lg px-3 py-2 text-xs text-ink-500 shadow-soft">
+            <i data-lucide="loader" class="w-3 h-3 text-sky-500"></i>
+            Analyzing symptoms · Usually takes 5 seconds
           </div>
         </div>
 
         <!-- Step 3 -->
-        <div class="relative reveal" style="transition-delay: 0.4s">
-          <div class="flex flex-col items-center text-center">
-            <div class="relative w-20 h-20 rounded-2xl glass-strong flex items-center justify-center mb-6 z-10">
-              <i data-lucide="clipboard-check" class="w-8 h-8 text-purple-400"></i>
-              <div class="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-purple-400 text-white text-xs font-bold flex items-center justify-center font-mono">03</div>
+        <div class="relative text-center fade-up">
+          <div class="relative inline-flex">
+            <div class="w-24 h-24 rounded-2xl bg-white border border-ink-100 shadow-card flex items-center justify-center mx-auto mb-6 relative z-10">
+              <i data-lucide="stethoscope" class="w-9 h-9 text-emerald-600"></i>
             </div>
-            <h3 class="font-display text-xl font-semibold mb-3">Get Report & Recommendation</h3>
-            <p class="text-sm text-slate-400 leading-relaxed max-w-xs">
-              Receive a detailed medical report with diagnosis, next steps, and doctor recommendations if needed.
-            </p>
-            <div class="mt-6 glass rounded-xl px-4 py-2 flex items-center gap-2">
-              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
-              <span class="text-xs text-slate-300">Report ready · 98% confidence</span>
-            </div>
+            <div class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-emerald-500 text-white text-sm font-bold flex items-center justify-center z-20 shadow-btn">3</div>
+          </div>
+          <h3 class="text-xl font-semibold text-ink-900 mb-2">Get Medical Guidance</h3>
+          <p class="text-sm text-ink-500 leading-relaxed max-w-xs mx-auto">
+            Receive clear guidance, recommended next steps, and connect instantly with a specialist if needed.
+          </p>
+          <div class="mt-5 inline-flex items-center gap-2 bg-white border border-ink-100 rounded-lg px-3 py-2 text-xs text-ink-500 shadow-soft">
+            <i data-lucide="check-circle-2" class="w-3 h-3 text-emerald-500"></i>
+            Report ready · Doctor available now
           </div>
         </div>
+
       </div>
+    </div>
+
+    <div class="text-center mt-14 fade-up">
+      <a href="#" class="btn-primary inline-flex items-center gap-2 bg-brand-600 text-white font-semibold px-6 py-3.5 rounded-xl shadow-btn">
+        Try it now — it's free
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </a>
     </div>
   </div>
 </section>
 
-<!-- Dashboard Preview -->
-<section id="dashboard" class="relative py-32">
-  <div class="glow-orb w-[600px] h-[600px] bg-cyan-500 top-40 -right-40 opacity-30"></div>
-  
-  <div class="max-w-7xl mx-auto px-6 lg:px-8">
-    <div class="text-center max-w-3xl mx-auto mb-16">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass mb-6 reveal">
-        <i data-lucide="layout-dashboard" class="w-3 h-3 text-cyan-400"></i>
-        <span class="text-xs font-medium tracking-wide text-slate-300">DASHBOARD</span>
-      </div>
-      <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 reveal" style="transition-delay: 0.1s">
-        Your health,<br><span class="gradient-text">visualized intelligently</span>
+<!-- ============ MEDICAL SERVICES ============ -->
+<section id="services" class="py-20 lg:py-28">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+
+    <div class="max-w-2xl mx-auto text-center mb-16">
+      <span class="text-xs font-semibold tracking-[0.2em] uppercase text-brand-600 fade-up">Specialties</span>
+      <h2 class="font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink-900 mt-3 mb-4 fade-up">
+        Care across every specialty
       </h2>
-      <p class="text-lg text-slate-400 reveal" style="transition-delay: 0.2s">
-        A futuristic dashboard that turns complex medical data into clear, actionable insights.
+      <p class="text-lg text-ink-500 fade-up">
+        Consult board-certified specialists across a wide range of medical fields — all from one platform.
       </p>
     </div>
 
-    <!-- Dashboard Mockup -->
-    <div class="glass-strong rounded-3xl p-6 lg:p-8 reveal" style="transition-delay: 0.3s">
-      <!-- Dashboard top bar -->
-      <div class="flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b border-white/5">
-        <div class="flex items-center gap-3">
-          <img src="https://picsum.photos/seed/patient-avatar/80/80.jpg" class="w-12 h-12 rounded-xl object-cover" alt="Patient">
-          <div>
-            <div class="font-display font-semibold">John Matthews</div>
-            <div class="text-xs text-slate-500 font-mono">Patient ID: #MC-2847 · Last sync 2 min ago</div>
-          </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+
+      <a href="#" class="card-hover bg-white rounded-2xl border border-ink-100 p-6 flex items-center gap-5 fade-up">
+        <div class="w-14 h-14 rounded-xl bg-rose-50 flex items-center justify-center border border-rose-100 flex-shrink-0">
+          <i data-lucide="heart-pulse" class="w-7 h-7 text-rose-600"></i>
         </div>
-        <div class="flex items-center gap-2">
-          <div class="hidden md:flex items-center gap-2 px-3 py-2 rounded-xl glass text-xs text-slate-400">
-            <i data-lucide="search" class="w-3.5 h-3.5"></i>
-            <span>Search records...</span>
-          </div>
-          <button class="w-10 h-10 rounded-xl glass flex items-center justify-center relative">
-            <i data-lucide="bell" class="w-4 h-4 text-slate-300"></i>
-            <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-cyan-400"></span>
-          </button>
-          <button class="w-10 h-10 rounded-xl glass flex items-center justify-center">
-            <i data-lucide="settings" class="w-4 h-4 text-slate-300"></i>
-          </button>
+        <div class="flex-1">
+          <h3 class="text-base font-semibold text-ink-900 mb-0.5">Cardiology</h3>
+          <p class="text-xs text-ink-500">Heart & vascular care</p>
         </div>
-      </div>
+        <i data-lucide="arrow-up-right" class="w-5 h-5 text-ink-300"></i>
+      </a>
 
-      <!-- Dashboard grid -->
-      <div class="grid lg:grid-cols-3 gap-4">
-        
-        <!-- Health Score -->
-        <div class="glass rounded-2xl p-6">
-          <div class="flex items-center justify-between mb-4">
-            <span class="text-sm font-medium text-slate-300">Health Score</span>
-            <span class="text-xs px-2 py-1 rounded-full bg-emerald-400/10 text-emerald-400 font-medium">Excellent</span>
-          </div>
-          <div class="flex items-center justify-center my-6">
-            <div class="relative w-36 h-36">
-              <svg class="score-ring w-full h-full" viewBox="0 0 120 120">
-                <circle cx="60" cy="60" r="52" stroke="rgba(255,255,255,0.05)" stroke-width="8" fill="none"/>
-                <circle id="dashboard-score-circle" cx="60" cy="60" r="52" stroke="url(#scoreGradient2)" stroke-width="8" fill="none" 
-                  stroke-dasharray="326.7" stroke-dashoffset="326.7" stroke-linecap="round"/>
-                <defs>
-                  <linearGradient id="scoreGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#00ffa3"/>
-                    <stop offset="100%" stop-color="#00d4ff"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-              <div class="absolute inset-0 flex flex-col items-center justify-center">
-                <span class="text-4xl font-display font-bold" id="dashboard-score-value">0</span>
-                <span class="text-[10px] text-slate-500 uppercase tracking-wider mt-1">out of 100</span>
-              </div>
-            </div>
-          </div>
-          <div class="grid grid-cols-3 gap-2 text-center">
-            <div>
-              <div class="text-xs text-slate-500">Heart</div>
-              <div class="text-sm font-semibold text-emerald-400">94</div>
-            </div>
-            <div>
-              <div class="text-xs text-slate-500">Sleep</div>
-              <div class="text-sm font-semibold text-cyan-400">88</div>
-            </div>
-            <div>
-              <div class="text-xs text-slate-500">Activity</div>
-              <div class="text-sm font-semibold text-amber-400">82</div>
-            </div>
-          </div>
+      <a href="#" class="card-hover bg-white rounded-2xl border border-ink-100 p-6 flex items-center gap-5 fade-up">
+        <div class="w-14 h-14 rounded-xl bg-amber-50 flex items-center justify-center border border-amber-100 flex-shrink-0">
+          <i data-lucide="sparkle" class="w-7 h-7 text-amber-600"></i>
         </div>
-
-        <!-- Blood Pressure Chart -->
-        <div class="glass rounded-2xl p-6 lg:col-span-2">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <div class="text-sm font-medium text-slate-300">Blood Pressure Analytics</div>
-              <div class="text-xs text-slate-500 mt-1">Last 7 days · Updated 2 min ago</div>
-            </div>
-            <div class="flex items-center gap-3 text-xs">
-              <div class="flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-                <span class="text-slate-400">Systolic</span>
-              </div>
-              <div class="flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-purple-400"></span>
-                <span class="text-slate-400">Diastolic</span>
-              </div>
-            </div>
-          </div>
-          
-          <div class="flex items-baseline gap-3 mb-4">
-            <span class="text-3xl font-display font-bold">120</span>
-            <span class="text-slate-500">/</span>
-            <span class="text-3xl font-display font-bold">80</span>
-            <span class="text-sm text-slate-500">mmHg</span>
-            <span class="ml-auto text-xs px-2 py-1 rounded-full bg-emerald-400/10 text-emerald-400">Normal</span>
-          </div>
-
-          <div class="relative h-40 mt-4">
-            <svg viewBox="0 0 400 160" class="w-full h-full" preserveAspectRatio="none">
-              <!-- Grid lines -->
-              <line x1="0" y1="40" x2="400" y2="40" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-              <line x1="0" y1="80" x2="400" y2="80" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-              <line x1="0" y1="120" x2="400" y2="120" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-              
-              <!-- Systolic area -->
-              <path d="M0,60 C50,55 100,70 150,50 C200,45 250,60 300,40 C350,35 400,50 400,50 L400,160 L0,160 Z" 
-                fill="url(#chartGradient)" opacity="0.2"/>
-              
-              <!-- Systolic line -->
-              <path d="M0,60 C50,55 100,70 150,50 C200,45 250,60 300,40 C350,35 400,50 400,50" 
-                stroke="#00d4ff" stroke-width="2.5" fill="none" stroke-linecap="round" class="chart-path"/>
-              
-              <!-- Diastolic line -->
-              <path d="M0,100 C50,105 100,95 150,100 C200,108 250,95 300,105 C350,100 400,95 400,95" 
-                stroke="#8b5cf6" stroke-width="2.5" fill="none" stroke-linecap="round" class="chart-path" style="animation-delay: 0.3s"/>
-              
-              <!-- Data points -->
-              <circle cx="0" cy="60" r="3" fill="#00d4ff"/>
-              <circle cx="80" cy="62" r="3" fill="#00d4ff"/>
-              <circle cx="160" cy="48" r="3" fill="#00d4ff"/>
-              <circle cx="240" cy="55" r="3" fill="#00d4ff"/>
-              <circle cx="320" cy="38" r="3" fill="#00d4ff"/>
-              <circle cx="400" cy="50" r="3" fill="#00d4ff"/>
-              
-              <defs>
-                <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.4"/>
-                  <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          
-          <div class="flex justify-between text-[10px] text-slate-600 mt-2 font-mono">
-            <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span>
-          </div>
+        <div class="flex-1">
+          <h3 class="text-base font-semibold text-ink-900 mb-0.5">Dermatology</h3>
+          <p class="text-xs text-ink-500">Skin, hair & nail health</p>
         </div>
+        <i data-lucide="arrow-up-right" class="w-5 h-5 text-ink-300"></i>
+      </a>
 
-        <!-- AI Assistant -->
-        <div class="glass rounded-2xl p-6 lg:col-span-2">
-          <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center gap-2">
-              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-teal-400 flex items-center justify-center">
-                <i data-lucide="sparkles" class="w-4 h-4 text-slate-900"></i>
-              </div>
-              <div>
-                <div class="text-sm font-medium">AI Health Assistant</div>
-                <div class="text-[10px] text-emerald-400 flex items-center gap-1">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot"></span>
-                  Online
-                </div>
-              </div>
-            </div>
-            <button class="text-xs text-slate-500 hover:text-cyan-300 transition-colors">View all</button>
-          </div>
-
-          <div class="space-y-3 mb-4">
-            <div class="flex gap-3">
-              <div class="w-7 h-7 rounded-lg bg-cyan-400/10 flex items-center justify-center flex-shrink-0">
-                <i data-lucide="bot" class="w-3.5 h-3.5 text-cyan-400"></i>
-              </div>
-              <div class="glass rounded-2xl rounded-tl-sm px-4 py-3 text-sm text-slate-300">
-                <span id="typing-text"></span><span class="inline-block w-0.5 h-4 bg-cyan-400 ml-0.5 animate-pulse"></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-2">
-            <div class="glass rounded-xl p-3 hover:border-cyan-400/30 transition-colors cursor-pointer">
-              <div class="flex items-center gap-2 mb-1">
-                <i data-lucide="droplets" class="w-3.5 h-3.5 text-cyan-400"></i>
-                <span class="text-xs font-medium">Hydration</span>
-              </div>
-              <div class="text-[11px] text-slate-500">Increase water intake by 25%</div>
-            </div>
-            <div class="glass rounded-xl p-3 hover:border-cyan-400/30 transition-colors cursor-pointer">
-              <div class="flex items-center gap-2 mb-1">
-                <i data-lucide="moon" class="w-3.5 h-3.5 text-purple-400"></i>
-                <span class="text-xs font-medium">Sleep</span>
-              </div>
-              <div class="text-[11px] text-slate-500">Aim for 8h sleep tonight</div>
-            </div>
-          </div>
+      <a href="#" class="card-hover bg-white rounded-2xl border border-ink-100 p-6 flex items-center gap-5 fade-up">
+        <div class="w-14 h-14 rounded-xl bg-sky-50 flex items-center justify-center border border-sky-100 flex-shrink-0">
+          <i data-lucide="baby" class="w-7 h-7 text-sky-600"></i>
         </div>
-
-        <!-- Appointment Scheduler -->
-        <div class="glass rounded-2xl p-6">
-          <div class="flex items-center justify-between mb-4">
-            <span class="text-sm font-medium text-slate-300">Upcoming</span>
-            <i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i>
-          </div>
-          
-          <div class="space-y-3">
-            <div class="glass rounded-xl p-3 hover:border-cyan-400/30 transition-colors cursor-pointer">
-              <div class="flex items-center gap-3">
-                <img src="https://picsum.photos/seed/doctor-a/60/60.jpg" class="w-9 h-9 rounded-lg object-cover" alt="">
-                <div class="flex-1 min-w-0">
-                  <div class="text-xs font-medium truncate">Dr. Sarah Chen</div>
-                  <div class="text-[10px] text-slate-500">Cardiology · Tomorrow 10:30</div>
-                </div>
-                <button class="w-7 h-7 rounded-lg bg-cyan-400/10 flex items-center justify-center flex-shrink-0">
-                  <i data-lucide="video" class="w-3 h-3 text-cyan-400"></i>
-                </button>
-              </div>
-            </div>
-            
-            <div class="glass rounded-xl p-3 hover:border-cyan-400/30 transition-colors cursor-pointer">
-              <div class="flex items-center gap-3">
-                <img src="https://picsum.photos/seed/doctor-b/60/60.jpg" class="w-9 h-9 rounded-lg object-cover" alt="">
-                <div class="flex-1 min-w-0">
-                  <div class="text-xs font-medium truncate">Dr. James Park</div>
-                  <div class="text-[10px] text-slate-500">General · Fri 14:00</div>
-                </div>
-                <button class="w-7 h-7 rounded-lg bg-cyan-400/10 flex items-center justify-center flex-shrink-0">
-                  <i data-lucide="video" class="w-3 h-3 text-cyan-400"></i>
-                </button>
-              </div>
-            </div>
-
-            <div class="glass rounded-xl p-3 hover:border-cyan-400/30 transition-colors cursor-pointer">
-              <div class="flex items-center gap-3">
-                <img src="https://picsum.photos/seed/doctor-c/60/60.jpg" class="w-9 h-9 rounded-lg object-cover" alt="">
-                <div class="flex-1 min-w-0">
-                  <div class="text-xs font-medium truncate">Dr. Maya Patel</div>
-                  <div class="text-[10px] text-slate-500">Nutrition · Mon 09:00</div>
-                </div>
-                <button class="w-7 h-7 rounded-lg bg-cyan-400/10 flex items-center justify-center flex-shrink-0">
-                  <i data-lucide="video" class="w-3 h-3 text-cyan-400"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <button class="w-full mt-4 py-2.5 rounded-xl border border-dashed border-slate-700 hover:border-cyan-400/50 hover:text-cyan-300 text-slate-500 text-xs font-medium transition-colors flex items-center justify-center gap-2">
-            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-            Book new appointment
-          </button>
+        <div class="flex-1">
+          <h3 class="text-base font-semibold text-ink-900 mb-0.5">Pediatrics</h3>
+          <p class="text-xs text-ink-500">Child & infant care</p>
         </div>
-      </div>
+        <i data-lucide="arrow-up-right" class="w-5 h-5 text-ink-300"></i>
+      </a>
+
+      <a href="#" class="card-hover bg-white rounded-2xl border border-ink-100 p-6 flex items-center gap-5 fade-up">
+        <div class="w-14 h-14 rounded-xl bg-violet-50 flex items-center justify-center border border-violet-100 flex-shrink-0">
+          <i data-lucide="brain" class="w-7 h-7 text-violet-600"></i>
+        </div>
+        <div class="flex-1">
+          <h3 class="text-base font-semibold text-ink-900 mb-0.5">Neurology</h3>
+          <p class="text-xs text-ink-500">Brain & nervous system</p>
+        </div>
+        <i data-lucide="arrow-up-right" class="w-5 h-5 text-ink-300"></i>
+      </a>
+
+      <a href="#" class="card-hover bg-white rounded-2xl border border-ink-100 p-6 flex items-center gap-5 fade-up">
+        <div class="w-14 h-14 rounded-xl bg-emerald-50 flex items-center justify-center border border-emerald-100 flex-shrink-0">
+          <i data-lucide="bone" class="w-7 h-7 text-emerald-600"></i>
+        </div>
+        <div class="flex-1">
+          <h3 class="text-base font-semibold text-ink-900 mb-0.5">Orthopedics</h3>
+          <p class="text-xs text-ink-500">Bones, joints & muscles</p>
+        </div>
+        <i data-lucide="arrow-up-right" class="w-5 h-5 text-ink-300"></i>
+      </a>
+
+      <a href="#" class="card-hover bg-white rounded-2xl border border-ink-100 p-6 flex items-center gap-5 fade-up">
+        <div class="w-14 h-14 rounded-xl bg-brand-50 flex items-center justify-center border border-brand-100 flex-shrink-0">
+          <i data-lucide="stethoscope" class="w-7 h-7 text-brand-600"></i>
+        </div>
+        <div class="flex-1">
+          <h3 class="text-base font-semibold text-ink-900 mb-0.5">General Medicine</h3>
+          <p class="text-xs text-ink-500">Primary healthcare</p>
+        </div>
+        <i data-lucide="arrow-up-right" class="w-5 h-5 text-ink-300"></i>
+      </a>
+
+    </div>
+
+    <div class="text-center mt-12 fade-up">
+      <a href="#" class="inline-flex items-center gap-2 text-sm font-semibold text-brand-600 hover:text-brand-700 transition-colors">
+        View all 20+ specialties
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </a>
     </div>
   </div>
 </section>
 
-<!-- Testimonials -->
-<section id="testimonials" class="relative py-32">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8">
-    <div class="text-center max-w-3xl mx-auto mb-16">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass mb-6 reveal">
-        <i data-lucide="quote" class="w-3 h-3 text-cyan-400"></i>
-        <span class="text-xs font-medium tracking-wide text-slate-300">TESTIMONIALS</span>
-      </div>
-      <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 reveal" style="transition-delay: 0.1s">
-        Trusted by <span class="gradient-text">millions worldwide</span>
-      </h2>
-      <p class="text-lg text-slate-400 reveal" style="transition-delay: 0.2s">
-        Real stories from patients who experienced the future of healthcare.
-      </p>
-    </div>
+<!-- ============ TRUST SECTION ============ -->
+<section class="py-20 lg:py-28 bg-ink-50 border-y border-ink-100">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
 
-    <div class="relative max-w-4xl mx-auto reveal" style="transition-delay: 0.3s">
-      <div class="overflow-hidden">
-        <div id="testimonial-track" class="carousel-track flex">
-          
-          <!-- Testimonial 1 -->
-          <div class="w-full flex-shrink-0 px-4">
-            <div class="glass-strong rounded-3xl p-8 md:p-12 text-center">
-              <div class="flex justify-center gap-1 mb-6">
-                <i data-lucide="star" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
-                <i data-lucide="star" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
-                <i data-lucide="star" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
-                <i data-lucide="star" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
-                <i data-lucide="star" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
-              </div>
-              <p class="text-xl md:text-2xl font-display leading-relaxed mb-8 text-slate-200">
-                "The AI detected an irregular heart pattern three days before my scheduled checkup. My cardiologist confirmed it was AFib. MediCore AI literally saved my life."
-              </p>
-              <div class="flex items-center justify-center gap-4">
-                <img src="https://picsum.photos/seed/testimonial-1/80/80.jpg" class="w-14 h-14 rounded-full object-cover" alt="">
-                <div class="text-left">
-                  <div class="flex items-center gap-2">
-                    <span class="font-semibold">Robert Anderson</span>
-                    <span class="w-4 h-4 rounded-full bg-cyan-400 flex items-center justify-center">
-                      <i data-lucide="check" class="w-2.5 h-2.5 text-slate-900"></i>
-                    </span>
-                  </div>
-                  <div class="text-xs text-slate-500">Cardiac Patient · New York</div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
 
-          <!-- Testimonial 2 -->
-          <div class="w-full flex-shrink-0 px-4">
-            <div class="glass-strong rounded-3xl p-8 md:p-12 text-center">
-              <div class="flex justify-center gap-1 mb-6">
-                <i data-lucide="star" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
-                <i data-lucide="star" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
-                <i data-lucide="star" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
-                <i data-lucide="star" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
-                <i data-lucide="star" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
-              </div>
-              <p class="text-xl md:text-2xl font-display leading-relaxed mb-8 text-slate-200">
-                "As a mother of two, having a doctor available at 3am when my child has a fever is priceless. The AI symptom checker is remarkably accurate every single time."
-              </p>
-              <div class="flex items-center justify-center gap-4">
-                <img src="https://picsum.photos/seed/testimonial-2/80/80.jpg" class="w-14 h-14 rounded-full object-cover" alt="">
-                <div class="text-left">
-                  <div class="flex items-center gap-2">
-                    <span class="font-semibold">Elena Rodriguez</span>
-                    <span class="w-4 h-4 rounded-full bg-cyan-400 flex items-center justify-center">
-                      <i data-lucide="check" class="w-2.5 h-2.5 text-slate-900"></i>
-                    </span>
-                  </div>
-                  <div class="text-xs text-slate-500">Parent · Madrid</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Testimonial 3 -->
-          <div class="w-full flex-shrink-0 px-4">
-            <div class="glass-strong rounded-3xl p-8 md:p-12 text-center">
-              <div class="flex justify-center gap-1 mb-6">
-                <i data-lucide="star" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
-                <i data-lucide="star" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
-                <i data-lucide="star" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
-                <i data-lucide="star" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
-                <i data-lucide="star" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
-              </div>
-              <p class="text-xl md:text-2xl font-display leading-relaxed mb-8 text-slate-200">
-                "Managing my diabetes used to be overwhelming. MediCore AI syncs with my CGM, predicts glucose spikes, and adjusts recommendations in real-time. Life-changing."
-              </p>
-              <div class="flex items-center justify-center gap-4">
-                <img src="https://picsum.photos/seed/testimonial-3/80/80.jpg" class="w-14 h-14 rounded-full object-cover" alt="">
-                <div class="text-left">
-                  <div class="flex items-center gap-2">
-                    <span class="font-semibold">Michael Chang</span>
-                    <span class="w-4 h-4 rounded-full bg-cyan-400 flex items-center justify-center">
-                      <i data-lucide="check" class="w-2.5 h-2.5 text-slate-900"></i>
-                    </span>
-                  </div>
-                  <div class="text-xs text-slate-500">Diabetes Patient · Singapore</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Carousel controls -->
-      <div class="flex items-center justify-center gap-4 mt-8">
-        <button id="prev-testimonial" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover:border-cyan-400/30 transition-colors">
-          <i data-lucide="chevron-left" class="w-4 h-4"></i>
-        </button>
-        <div id="testimonial-dots" class="flex gap-2"></div>
-        <button id="next-testimonial" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover:border-cyan-400/30 transition-colors">
-          <i data-lucide="chevron-right" class="w-4 h-4"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Emergency Section -->
-<section id="emergency" class="relative py-32 emergency-bg">
-  <div class="absolute inset-0 overflow-hidden">
-    <div class="glow-orb w-[500px] h-[500px] bg-red-500 top-0 left-1/4 opacity-30 emergency-pulse"></div>
-  </div>
-
-  <div class="relative max-w-7xl mx-auto px-6 lg:px-8">
-    <div class="grid lg:grid-cols-2 gap-12 items-center">
-      
-      <!-- Left: Content -->
+      <!-- Left -->
       <div>
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 mb-6 reveal">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-400"></span>
-          </span>
-          <span class="text-xs font-medium tracking-wide text-red-300">EMERGENCY AI</span>
-        </div>
-
-        <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 reveal" style="transition-delay: 0.1s">
-          Emergency AI<br>
-          <span class="text-red-400">Detection System</span>
+        <span class="text-xs font-semibold tracking-[0.2em] uppercase text-brand-600 fade-up">Trust & Security</span>
+        <h2 class="font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink-900 mt-3 mb-5 fade-up">
+          Your health data is safe with us
         </h2>
-
-        <p class="text-lg text-slate-400 mb-8 leading-relaxed reveal" style="transition-delay: 0.2s">
-          Our predictive AI monitors your vitals 24/7 and detects early warning signs of heart attacks, strokes, and other critical events — sometimes before you even feel symptoms.
+        <p class="text-lg text-ink-500 leading-relaxed mb-8 fade-up">
+          We follow the highest standards of medical data security and compliance. Your information is encrypted, never sold, and only accessible to you and your authorized care team.
         </p>
 
-        <div class="space-y-4 mb-8">
-          <div class="flex items-start gap-3 reveal" style="transition-delay: 0.3s">
-            <div class="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-              <i data-lucide="check" class="w-3.5 h-3.5 text-red-400"></i>
+        <div class="space-y-5">
+          <div class="flex items-start gap-4 fade-up">
+            <div class="w-11 h-11 rounded-xl bg-white border border-ink-100 shadow-soft flex items-center justify-center flex-shrink-0">
+              <i data-lucide="shield-check" class="w-5 h-5 text-brand-600"></i>
             </div>
             <div>
-              <div class="font-semibold text-sm">Predictive risk analysis</div>
-              <div class="text-xs text-slate-500 mt-1">AI evaluates patterns indicating medical emergencies before they occur</div>
+              <h3 class="text-base font-semibold text-ink-900 mb-1">Secure & Private Data</h3>
+              <p class="text-sm text-ink-500 leading-relaxed">256-bit AES encryption at rest and in transit. Your records are accessible only to you and doctors you authorize.</p>
             </div>
           </div>
-          <div class="flex items-start gap-3 reveal" style="transition-delay: 0.4s">
-            <div class="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-              <i data-lucide="check" class="w-3.5 h-3.5 text-red-400"></i>
+
+          <div class="flex items-start gap-4 fade-up">
+            <div class="w-11 h-11 rounded-xl bg-white border border-ink-100 shadow-soft flex items-center justify-center flex-shrink-0">
+              <i data-lucide="badge-check" class="w-5 h-5 text-brand-600"></i>
             </div>
             <div>
-              <div class="font-semibold text-sm">One-click SOS dispatch</div>
-              <div class="text-xs text-slate-500 mt-1">Instantly alerts emergency services with your location and medical data</div>
+              <h3 class="text-base font-semibold text-ink-900 mb-1">Verified Doctors</h3>
+              <p class="text-sm text-ink-500 leading-relaxed">Every doctor on MediCore AI is licensed, background-checked, and reviewed by our medical advisory board.</p>
             </div>
           </div>
-          <div class="flex items-start gap-3 reveal" style="transition-delay: 0.5s">
-            <div class="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-              <i data-lucide="check" class="w-3.5 h-3.5 text-red-400"></i>
+
+          <div class="flex items-start gap-4 fade-up">
+            <div class="w-11 h-11 rounded-xl bg-white border border-ink-100 shadow-soft flex items-center justify-center flex-shrink-0">
+              <i data-lucide="headphones" class="w-5 h-5 text-brand-600"></i>
             </div>
             <div>
-              <div class="font-semibold text-sm">Nearest hospital routing</div>
-              <div class="text-xs text-slate-500 mt-1">Automatically identifies and routes you to the nearest equipped facility</div>
+              <h3 class="text-base font-semibold text-ink-900 mb-1">24/7 Patient Support</h3>
+              <p class="text-sm text-ink-500 leading-relaxed">Real humans, available round-the-clock for any questions about your care, billing, or technical help.</p>
             </div>
           </div>
         </div>
-
-        <button class="bg-red-500 hover:bg-red-600 text-white font-semibold px-8 py-4 rounded-2xl flex items-center gap-3 transition-all hover:scale-[1.02] pulse-sos reveal" style="transition-delay: 0.6s">
-          <i data-lucide="siren" class="w-5 h-5"></i>
-          Activate SOS
-          <span class="text-xs bg-white/20 px-2 py-1 rounded-md font-mono">HOLD 3s</span>
-        </button>
       </div>
 
-      <!-- Right: Emergency Alert UI -->
-      <div class="relative reveal" style="transition-delay: 0.3s">
-        <div class="glass-strong rounded-3xl p-6 border-red-500/20">
-          <div class="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl bg-red-500/20 flex items-center justify-center emergency-pulse">
-                <i data-lucide="alert-triangle" class="w-5 h-5 text-red-400"></i>
-              </div>
-              <div>
-                <div class="font-display font-semibold">Live Risk Monitor</div>
-                <div class="text-xs text-slate-500 font-mono">Updated 0.3s ago</div>
-              </div>
-            </div>
-            <span class="text-xs px-3 py-1 rounded-full bg-red-500/10 text-red-400 font-medium">ACTIVE</span>
-          </div>
+      <!-- Right: Compliance card -->
+      <div class="fade-up">
+        <div class="bg-white rounded-3xl border border-ink-100 shadow-card p-8">
 
-          <!-- Risk gauge -->
-          <div class="mb-6">
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-xs text-slate-400">Current Risk Level</span>
-              <span class="text-xs text-amber-400 font-medium">ELEVATED</span>
+          <div class="flex items-center gap-3 mb-7 pb-7 border-b border-ink-100">
+            <div class="w-12 h-12 rounded-xl bg-brand-600 flex items-center justify-center">
+              <i data-lucide="file-check-2" class="w-6 h-6 text-white"></i>
             </div>
-            <div class="relative h-3 rounded-full risk-bar">
-              <div class="risk-indicator" style="left: 62%"></div>
-            </div>
-            <div class="flex justify-between text-[10px] text-slate-600 mt-2 font-mono">
-              <span>SAFE</span><span>MONITOR</span><span>CRITICAL</span>
-            </div>
-          </div>
-
-          <!-- Vital signs grid -->
-          <div class="grid grid-cols-2 gap-3 mb-6">
-            <div class="glass rounded-xl p-3">
-              <div class="flex items-center gap-2 mb-1">
-                <i data-lucide="heart-pulse" class="w-3.5 h-3.5 text-red-400"></i>
-                <span class="text-[10px] text-slate-500 uppercase tracking-wider">Heart</span>
-              </div>
-              <div class="flex items-baseline gap-1">
-                <span class="text-lg font-display font-bold">142</span>
-                <span class="text-[10px] text-slate-500">BPM</span>
-              </div>
-              <div class="text-[10px] text-amber-400">Elevated</div>
-            </div>
-            <div class="glass rounded-xl p-3">
-              <div class="flex items-center gap-2 mb-1">
-                <i data-lucide="gauge" class="w-3.5 h-3.5 text-cyan-400"></i>
-                <span class="text-[10px] text-slate-500 uppercase tracking-wider">Pressure</span>
-              </div>
-              <div class="flex items-baseline gap-1">
-                <span class="text-lg font-display font-bold">155</span>
-                <span class="text-[10px] text-slate-500">/95</span>
-              </div>
-              <div class="text-[10px] text-red-400">High</div>
-            </div>
-            <div class="glass rounded-xl p-3">
-              <div class="flex items-center gap-2 mb-1">
-                <i data-lucide="wind" class="w-3.5 h-3.5 text-teal-400"></i>
-                <span class="text-[10px] text-slate-500 uppercase tracking-wider">SpO2</span>
-              </div>
-              <div class="flex items-baseline gap-1">
-                <span class="text-lg font-display font-bold">94</span>
-                <span class="text-[10px] text-slate-500">%</span>
-              </div>
-              <div class="text-[10px] text-amber-400">Slightly low</div>
-            </div>
-            <div class="glass rounded-xl p-3">
-              <div class="flex items-center gap-2 mb-1">
-                <i data-lucide="thermometer" class="w-3.5 h-3.5 text-orange-400"></i>
-                <span class="text-[10px] text-slate-500 uppercase tracking-wider">Temp</span>
-              </div>
-              <div class="flex items-baseline gap-1">
-                <span class="text-lg font-display font-bold">37.8</span>
-                <span class="text-[10px] text-slate-500">°C</span>
-              </div>
-              <div class="text-[10px] text-amber-400">Mild fever</div>
-            </div>
-          </div>
-
-          <!-- Location & dispatch -->
-          <div class="glass rounded-xl p-4">
-            <div class="flex items-center gap-2 mb-3">
-              <i data-lucide="map-pin" class="w-4 h-4 text-red-400"></i>
-              <span class="text-xs font-medium">Location & Dispatch</span>
-            </div>
-            <div class="space-y-2 text-xs">
-              <div class="flex items-center justify-between">
-                <span class="text-slate-500">Your location</span>
-                <span class="text-slate-300 font-mono">40.7589°N, 73.9851°W</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-slate-500">Nearest ER</span>
-                <span class="text-slate-300">Mount Sinai Hospital</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-slate-500">ETA</span>
-                <span class="text-emerald-400 font-mono">4.2 min</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-slate-500">Ambulance</span>
-                <span class="text-cyan-400 flex items-center gap-1">
-                  <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 pulse-dot"></span>
-                  Dispatched
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Floating alert badge -->
-        <div class="absolute -top-4 -right-4 glass-strong rounded-2xl px-4 py-3 border-red-500/30 float-1">
-          <div class="flex items-center gap-2">
-            <i data-lucide="zap" class="w-4 h-4 text-red-400"></i>
             <div>
-              <div class="text-xs font-semibold text-red-300">AI Alert</div>
-              <div class="text-[10px] text-slate-500">Pattern detected</div>
+              <h3 class="text-lg font-semibold text-ink-900">Compliance & Certifications</h3>
+              <p class="text-sm text-ink-400">Audited and certified by leading authorities</p>
             </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-ink-50 rounded-xl p-4 border border-ink-100">
+              <div class="flex items-center gap-2 mb-2">
+                <i data-lucide="lock-keyhole" class="w-4 h-4 text-brand-600"></i>
+                <span class="text-sm font-semibold text-ink-900">HIPAA</span>
+              </div>
+              <p class="text-xs text-ink-500">U.S. health privacy compliance certified</p>
+            </div>
+
+            <div class="bg-ink-50 rounded-xl p-4 border border-ink-100">
+              <div class="flex items-center gap-2 mb-2">
+                <i data-lucide="globe" class="w-4 h-4 text-brand-600"></i>
+                <span class="text-sm font-semibold text-ink-900">GDPR</span>
+              </div>
+              <p class="text-xs text-ink-500">European data protection regulation</p>
+            </div>
+
+            <div class="bg-ink-50 rounded-xl p-4 border border-ink-100">
+              <div class="flex items-center gap-2 mb-2">
+                <i data-lucide="award" class="w-4 h-4 text-brand-600"></i>
+                <span class="text-sm font-semibold text-ink-900">ISO 27001</span>
+              </div>
+              <p class="text-xs text-ink-500">Information security management system</p>
+            </div>
+
+            <div class="bg-ink-50 rounded-xl p-4 border border-ink-100">
+              <div class="flex items-center gap-2 mb-2">
+                <i data-lucide="building-2" class="w-4 h-4 text-brand-600"></i>
+                <span class="text-sm font-semibold text-ink-900">SOC 2</span>
+              </div>
+              <p class="text-xs text-ink-500">Service organization control Type II</p>
+            </div>
+          </div>
+
+          <div class="mt-7 pt-7 border-t border-ink-100 flex items-center gap-3">
+            <i data-lucide="info" class="w-4 h-4 text-ink-400 flex-shrink-0"></i>
+            <p class="text-xs text-ink-500">MediCore AI is not a replacement for emergency medical services. Always call your local emergency number in life-threatening situations.</p>
           </div>
         </div>
       </div>
@@ -1431,573 +775,547 @@ html.light .nav-scrolled {
   </div>
 </section>
 
-<!-- CTA Section -->
-<section class="relative py-32">
-  <div class="max-w-5xl mx-auto px-6 lg:px-8">
-    <div class="glass-strong rounded-[2.5rem] p-12 md:p-16 text-center relative overflow-hidden reveal">
-      <div class="absolute inset-0 opacity-30">
-        <div class="glow-orb w-[400px] h-[400px] bg-cyan-500 -top-40 -left-40"></div>
-        <div class="glow-orb w-[400px] h-[400px] bg-teal-500 -bottom-40 -right-40"></div>
-      </div>
-      <div class="relative">
-        <h2 class="font-display text-3xl md:text-5xl font-bold leading-tight mb-6">
-          Ready to experience<br>
-          <span class="gradient-text">the future of healthcare?</span>
-        </h2>
-        <p class="text-lg text-slate-400 mb-10 max-w-2xl mx-auto">
-          Join 2 million+ patients who trust MediCore AI with their health. Get started in less than 2 minutes.
-        </p>
-        <div class="flex flex-wrap justify-center gap-4">
-          <button class="btn-primary flex items-center gap-2">
-            <i data-lucide="activity" class="w-5 h-5"></i>
-            Start Free Diagnosis
-          </button>
-          <button class="btn-secondary flex items-center gap-2">
-            <i data-lucide="calendar" class="w-5 h-5 text-cyan-300"></i>
-            Book a Demo
-          </button>
+<!-- ============ TESTIMONIALS ============ -->
+<section id="testimonials" class="py-20 lg:py-28">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+
+    <div class="max-w-2xl mx-auto text-center mb-16">
+      <span class="text-xs font-semibold tracking-[0.2em] uppercase text-brand-600 fade-up">Patient Stories</span>
+      <h2 class="font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink-900 mt-3 mb-4 fade-up">
+        Trusted by patients across the country
+      </h2>
+      <p class="text-lg text-ink-500 fade-up">
+        Real experiences from people who found care when they needed it most.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+
+      <div class="bg-white rounded-2xl border border-ink-100 shadow-soft p-7 fade-up">
+        <div class="flex items-center gap-1 mb-5">
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
         </div>
-        <div class="flex flex-wrap justify-center items-center gap-6 mt-10 text-xs text-slate-500">
-          <div class="flex items-center gap-2">
-            <i data-lucide="shield-check" class="w-4 h-4 text-cyan-400"></i>
-            No credit card required
+        <p class="text-sm text-ink-700 leading-relaxed mb-6">
+          "I consulted a dermatologist through MediCore AI for a persistent skin issue. The doctor was thorough, the prescription worked, and I didn't have to take a day off work. Genuinely convenient."
+        </p>
+        <div class="flex items-center gap-3 pt-5 border-t border-ink-100">
+          <img src="https://picsum.photos/seed/patient-priya/80/80.jpg" class="w-11 h-11 rounded-full object-cover" alt="Priya Sharma">
+          <div class="flex-1">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm font-semibold text-ink-900">Priya Sharma</span>
+              <i data-lucide="badge-check" class="w-4 h-4 text-brand-600"></i>
+            </div>
+            <span class="text-xs text-ink-400">Mumbai · Dermatology patient</span>
           </div>
-          <div class="flex items-center gap-2">
-            <i data-lucide="clock" class="w-4 h-4 text-cyan-400"></i>
-            2-minute setup
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-ink-100 shadow-soft p-7 fade-up">
+        <div class="flex items-center gap-1 mb-5">
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+        </div>
+        <p class="text-sm text-ink-700 leading-relaxed mb-6">
+          "As a father of two young kids, the AI symptom checker has been a lifesaver at 2 AM. It tells me whether to wait or see a doctor immediately. The peace of mind is worth every rupee."
+        </p>
+        <div class="flex items-center gap-3 pt-5 border-t border-ink-100">
+          <img src="https://picsum.photos/seed/patient-arjun/80/80.jpg" class="w-11 h-11 rounded-full object-cover" alt="Arjun Mehta">
+          <div class="flex-1">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm font-semibold text-ink-900">Arjun Mehta</span>
+              <i data-lucide="badge-check" class="w-4 h-4 text-brand-600"></i>
+            </div>
+            <span class="text-xs text-ink-400">Bengaluru · Parent</span>
           </div>
-          <div class="flex items-center gap-2">
-            <i data-lucide="lock" class="w-4 h-4 text-cyan-400"></i>
-            HIPAA compliant
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-ink-100 shadow-soft p-7 fade-up">
+        <div class="flex items-center gap-1 mb-5">
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+        </div>
+        <p class="text-sm text-ink-700 leading-relaxed mb-6">
+          "Managing my diabetes used to mean carrying files of test reports. Now everything — prescriptions, lab results, doctor notes — is in one app. My cardiologist can see everything in seconds."
+        </p>
+        <div class="flex items-center gap-3 pt-5 border-t border-ink-100">
+          <img src="https://picsum.photos/seed/patient-robert/80/80.jpg" class="w-11 h-11 rounded-full object-cover" alt="Robert D'Souza">
+          <div class="flex-1">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm font-semibold text-ink-900">Robert D'Souza</span>
+              <i data-lucide="badge-check" class="w-4 h-4 text-brand-600"></i>
+            </div>
+            <span class="text-xs text-ink-400">Delhi · Cardiology patient</span>
           </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-ink-100 shadow-soft p-7 fade-up">
+        <div class="flex items-center gap-1 mb-5">
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+        </div>
+        <p class="text-sm text-ink-700 leading-relaxed mb-6">
+          "I live in a small town with no specialist nearby. Through MediCore AI I consulted a neurologist in the city without traveling. The prescription was delivered to my local pharmacy same day."
+        </p>
+        <div class="flex items-center gap-3 pt-5 border-t border-ink-100">
+          <img src="https://picsum.photos/seed/patient-lakshmi/80/80.jpg" class="w-11 h-11 rounded-full object-cover" alt="Lakshmi Iyer">
+          <div class="flex-1">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm font-semibold text-ink-900">Lakshmi Iyer</span>
+              <i data-lucide="badge-check" class="w-4 h-4 text-brand-600"></i>
+            </div>
+            <span class="text-xs text-ink-400">Coimbatore · Neurology patient</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-ink-100 shadow-soft p-7 fade-up">
+        <div class="flex items-center gap-1 mb-5">
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+        </div>
+        <p class="text-sm text-ink-700 leading-relaxed mb-6">
+          "The appointment reminders and prescription refills have made managing my chronic condition so much easier. The app is clean, simple, and the doctors actually take time to listen."
+        </p>
+        <div class="flex items-center gap-3 pt-5 border-t border-ink-100">
+          <img src="https://picsum.photos/seed/patient-fatima/80/80.jpg" class="w-11 h-11 rounded-full object-cover" alt="Fatima Khan">
+          <div class="flex-1">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm font-semibold text-ink-900">Fatima Khan</span>
+              <i data-lucide="badge-check" class="w-4 h-4 text-brand-600"></i>
+            </div>
+            <span class="text-xs text-ink-400">Hyderabad · General Medicine</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-ink-100 shadow-soft p-7 fade-up">
+        <div class="flex items-center gap-1 mb-5">
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+          <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+        </div>
+        <p class="text-sm text-ink-700 leading-relaxed mb-6">
+          "When my mother had chest pain at night, the AI advised us to seek immediate care. We called an ambulance through the app and reached the hospital in 8 minutes. It may have saved her life."
+        </p>
+        <div class="flex items-center gap-3 pt-5 border-t border-ink-100">
+          <img src="https://picsum.photos/seed/patient-vikram/80/80.jpg" class="w-11 h-11 rounded-full object-cover" alt="Vikram Reddy">
+          <div class="flex-1">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm font-semibold text-ink-900">Vikram Reddy</span>
+              <i data-lucide="badge-check" class="w-4 h-4 text-brand-600"></i>
+            </div>
+            <span class="text-xs text-ink-400">Pune · Caregiver</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ EMERGENCY SECTION ============ -->
+<section id="emergency" class="py-20 lg:py-24">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+    <div class="rounded-3xl bg-rose-50 border border-rose-100 overflow-hidden fade-up">
+      <div class="grid lg:grid-cols-2 items-center">
+
+        <!-- Left -->
+        <div class="p-8 lg:p-12">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-rose-200 mb-5">
+            <span class="flex h-2 w-2">
+              <span class="live-dot inline-flex h-2 w-2 rounded-full bg-rose-500"></span>
+            </span>
+            <span class="text-xs font-semibold text-rose-700">Available 24/7</span>
+          </div>
+
+          <h2 class="font-bold text-3xl lg:text-4xl tracking-tight text-ink-900 mb-4">
+            Emergency Support Available 24/7
+          </h2>
+          <p class="text-base text-ink-500 leading-relaxed mb-7 max-w-md">
+            Facing a medical emergency? Our team is ready to help — instantly connect with emergency services, alert your emergency contacts, and route ambulances to your location.
+          </p>
+
+          <div class="flex flex-wrap gap-3">
+            <a href="tel:911" class="sos-btn inline-flex items-center gap-2 bg-rose-600 text-white font-semibold px-6 py-3.5 rounded-xl shadow-btn">
+              <i data-lucide="phone-call" class="w-5 h-5"></i>
+              Call Emergency
+            </a>
+            <button id="sos-btn" class="sos-btn inline-flex items-center gap-2 bg-white text-rose-700 font-semibold px-6 py-3.5 rounded-xl border-2 border-rose-200">
+              <i data-lucide="siren" class="w-5 h-5"></i>
+              Send SOS Alert
+            </button>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-x-5 gap-y-2 mt-7 text-xs text-ink-500">
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-rose-500"></i>
+              <span>Auto-location sharing</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="users" class="w-3.5 h-3.5 text-rose-500"></i>
+              <span>Notifies emergency contacts</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="truck" class="w-3.5 h-3.5 text-rose-500"></i>
+              <span>Ambulance dispatch</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right -->
+        <div class="bg-white/60 p-8 lg:p-12 border-t lg:border-t-0 lg:border-l border-rose-100">
+          <div class="bg-white rounded-2xl border border-ink-100 shadow-card p-6">
+            <div class="flex items-center justify-between mb-5">
+              <div class="flex items-center gap-2">
+                <i data-lucide="map-pin" class="w-4 h-4 text-rose-500"></i>
+                <span class="text-sm font-semibold text-ink-900">Nearest Emergency Rooms</span>
+              </div>
+              <span class="text-[10px] text-ink-400 font-medium uppercase tracking-wide">Live</span>
+            </div>
+
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 p-3 rounded-xl bg-ink-50 border border-ink-100">
+                <div class="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center flex-shrink-0 border border-rose-100">
+                  <i data-lucide="building-2" class="w-5 h-5 text-rose-600"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm font-semibold text-ink-900 truncate">City General Hospital</div>
+                  <div class="text-xs text-ink-400">2.4 km · ER open · ~6 min</div>
+                </div>
+                <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-md">Open</span>
+              </div>
+
+              <div class="flex items-center gap-3 p-3 rounded-xl bg-ink-50 border border-ink-100">
+                <div class="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center flex-shrink-0 border border-rose-100">
+                  <i data-lucide="building-2" class="w-5 h-5 text-rose-600"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm font-semibold text-ink-900 truncate">Apollo Medical Center</div>
+                  <div class="text-xs text-ink-400">3.8 km · ER open · ~9 min</div>
+                </div>
+                <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-md">Open</span>
+              </div>
+
+              <div class="flex items-center gap-3 p-3 rounded-xl bg-ink-50 border border-ink-100">
+                <div class="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center flex-shrink-0 border border-rose-100">
+                  <i data-lucide="building-2" class="w-5 h-5 text-rose-600"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm font-semibold text-ink-900 truncate">Sunrise Children's Hospital</div>
+                  <div class="text-xs text-ink-400">5.1 km · ER open · ~12 min</div>
+                </div>
+                <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-md">Open</span>
+              </div>
+            </div>
+
+            <div class="mt-5 pt-5 border-t border-ink-100 flex items-start gap-2">
+              <i data-lucide="info" class="w-4 h-4 text-ink-400 flex-shrink-0 mt-0.5"></i>
+              <p class="text-xs text-ink-500 leading-relaxed">In a life-threatening emergency, always call your local emergency number (911 / 112 / 102) first.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA SECTION ============ -->
+<section class="py-16 lg:py-20">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+    <div class="rounded-3xl bg-ink-900 px-8 py-14 lg:p-16 text-center fade-up">
+      <h2 class="font-bold text-3xl lg:text-4xl tracking-tight text-white mb-4">
+        Start your healthier journey today
+      </h2>
+      <p class="text-lg text-ink-300 max-w-2xl mx-auto mb-8">
+        Join over 2 million patients who trust MediCore AI for their healthcare needs. Get started in less than 2 minutes — no insurance required.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="#" class="btn-primary inline-flex items-center gap-2 bg-brand-600 text-white font-semibold px-6 py-3.5 rounded-xl shadow-btn">
+          <i data-lucide="arrow-right-circle" class="w-5 h-5"></i>
+          Get Started Free
+        </a>
+        <a href="#" class="btn-secondary inline-flex items-center gap-2 bg-white text-ink-900 font-semibold px-6 py-3.5 rounded-xl border border-ink-200">
+          <i data-lucide="phone" class="w-5 h-5 text-brand-600"></i>
+          Talk to Sales
+        </a>
+      </div>
+      <div class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 mt-8 text-sm text-ink-400">
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+          <span>Free 14-day trial</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+          <span>No credit card required</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+          <span>Cancel anytime</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Footer -->
-<footer class="relative pt-20 pb-10 border-t border-white/5">
-  <div class="max-w-7xl mx-auto px-6 lg:px-8">
-    <div class="grid lg:grid-cols-12 gap-12 mb-16">
+<!-- ============ FOOTER ============ -->
+<footer class="bg-ink-50 border-t border-ink-100 pt-16 pb-8">
+  <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-8 mb-12">
+
       <div class="lg:col-span-4">
-        <a href="#" class="flex items-center gap-3 mb-6">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-teal-400 flex items-center justify-center shadow-lg shadow-cyan-500/30">
-            <svg viewBox="0 0 24 24" class="w-6 h-6 text-slate-900" fill="none" stroke="currentColor" stroke-width="2.5">
+        <a href="#" class="flex items-center gap-2.5 mb-5">
+          <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center shadow-soft">
+            <svg viewBox="0 0 24 24" class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M3 12h4l2-6 4 12 2-6h6" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
           <div>
-            <div class="font-display font-bold text-lg leading-none">MediCore <span class="gradient-text">AI</span></div>
-            <div class="text-[10px] tracking-[0.2em] text-slate-500 uppercase mt-1">Healthcare Intelligence</div>
+            <div class="font-bold text-[17px] leading-none tracking-tight text-ink-900">MediCore <span class="text-brand-600">AI</span></div>
+            <div class="text-[10px] tracking-[0.15em] text-ink-400 uppercase mt-1 font-medium">Healthcare Platform</div>
           </div>
         </a>
-        <p class="text-sm text-slate-400 leading-relaxed mb-6 max-w-sm">
-          The world's most advanced AI-powered healthcare platform. Diagnose, consult, monitor, and predict — all in one place.
+        <p class="text-sm text-ink-500 leading-relaxed max-w-sm mb-6">
+          MediCore AI is a trusted healthcare platform combining AI assistance with real doctors to deliver fast, reliable, and secure medical care to everyone, everywhere.
         </p>
-        <div class="flex gap-3">
-          <a href="#" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover:border-cyan-400/30 transition-colors">
-            <i data-lucide="twitter" class="w-4 h-4 text-slate-400"></i>
+        <div class="flex gap-2.5">
+          <a href="#" class="w-9 h-9 rounded-lg bg-white border border-ink-100 shadow-soft flex items-center justify-center hover:border-brand-200 transition-colors" aria-label="Twitter">
+            <i data-lucide="twitter" class="w-4 h-4 text-ink-500"></i>
           </a>
-          <a href="#" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover:border-cyan-400/30 transition-colors">
-            <i data-lucide="linkedin" class="w-4 h-4 text-slate-400"></i>
+          <a href="#" class="w-9 h-9 rounded-lg bg-white border border-ink-100 shadow-soft flex items-center justify-center hover:border-brand-200 transition-colors" aria-label="LinkedIn">
+            <i data-lucide="linkedin" class="w-4 h-4 text-ink-500"></i>
           </a>
-          <a href="#" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover:border-cyan-400/30 transition-colors">
-            <i data-lucide="github" class="w-4 h-4 text-slate-400"></i>
+          <a href="#" class="w-9 h-9 rounded-lg bg-white border border-ink-100 shadow-soft flex items-center justify-center hover:border-brand-200 transition-colors" aria-label="Facebook">
+            <i data-lucide="facebook" class="w-4 h-4 text-ink-500"></i>
           </a>
-          <a href="#" class="w-10 h-10 rounded-xl glass flex items-center justify-center hover:border-cyan-400/30 transition-colors">
-            <i data-lucide="youtube" class="w-4 h-4 text-slate-400"></i>
+          <a href="#" class="w-9 h-9 rounded-lg bg-white border border-ink-100 shadow-soft flex items-center justify-center hover:border-brand-200 transition-colors" aria-label="Instagram">
+            <i data-lucide="instagram" class="w-4 h-4 text-ink-500"></i>
           </a>
         </div>
       </div>
 
       <div class="lg:col-span-2">
-        <h4 class="font-display font-semibold text-sm mb-4">Product</h4>
-        <ul class="space-y-3 text-sm text-slate-400">
-          <li><a href="#features" class="hover:text-cyan-300 transition-colors">Features</a></li>
-          <li><a href="#dashboard" class="hover:text-cyan-300 transition-colors">Dashboard</a></li>
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">AI Diagnosis</a></li>
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">Doctors</a></li>
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">Pricing</a></li>
+        <h4 class="text-sm font-semibold text-ink-900 mb-4">Platform</h4>
+        <ul class="space-y-3 text-sm">
+          <li><a href="#features" class="text-ink-500 hover:text-brand-600 transition-colors">Features</a></li>
+          <li><a href="#how-it-works" class="text-ink-500 hover:text-brand-600 transition-colors">How It Works</a></li>
+          <li><a href="#services" class="text-ink-500 hover:text-brand-600 transition-colors">Specialties</a></li>
+          <li><a href="#" class="text-ink-500 hover:text-brand-600 transition-colors">Pricing</a></li>
+          <li><a href="#" class="text-ink-500 hover:text-brand-600 transition-colors">For Clinics</a></li>
         </ul>
       </div>
 
       <div class="lg:col-span-2">
-        <h4 class="font-display font-semibold text-sm mb-4">Company</h4>
-        <ul class="space-y-3 text-sm text-slate-400">
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">About Us</a></li>
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">Careers</a></li>
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">Press Kit</a></li>
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">Blog</a></li>
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">Contact</a></li>
+        <h4 class="text-sm font-semibold text-ink-900 mb-4">Company</h4>
+        <ul class="space-y-3 text-sm">
+          <li><a href="#" class="text-ink-500 hover:text-brand-600 transition-colors">About Us</a></li>
+          <li><a href="#" class="text-ink-500 hover:text-brand-600 transition-colors">Our Doctors</a></li>
+          <li><a href="#" class="text-ink-500 hover:text-brand-600 transition-colors">Careers</a></li>
+          <li><a href="#" class="text-ink-500 hover:text-brand-600 transition-colors">Press</a></li>
+          <li><a href="#" class="text-ink-500 hover:text-brand-600 transition-colors">Blog</a></li>
         </ul>
       </div>
 
       <div class="lg:col-span-2">
-        <h4 class="font-display font-semibold text-sm mb-4">Resources</h4>
-        <ul class="space-y-3 text-sm text-slate-400">
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">Help Center</a></li>
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">Documentation</a></li>
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">API Reference</a></li>
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">Research</a></li>
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">Status</a></li>
+        <h4 class="text-sm font-semibold text-ink-900 mb-4">Support</h4>
+        <ul class="space-y-3 text-sm">
+          <li><a href="#" class="text-ink-500 hover:text-brand-600 transition-colors">Help Center</a></li>
+          <li><a href="#" class="text-ink-500 hover:text-brand-600 transition-colors">Contact Us</a></li>
+          <li><a href="#" class="text-ink-500 hover:text-brand-600 transition-colors">Privacy Policy</a></li>
+          <li><a href="#" class="text-ink-500 hover:text-brand-600 transition-colors">Terms of Service</a></li>
+          <li><a href="#" class="text-ink-500 hover:text-brand-600 transition-colors">HIPAA Notice</a></li>
         </ul>
       </div>
 
       <div class="lg:col-span-2">
-        <h4 class="font-display font-semibold text-sm mb-4">Legal</h4>
-        <ul class="space-y-3 text-sm text-slate-400">
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">Privacy Policy</a></li>
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">Terms of Service</a></li>
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">HIPAA Notice</a></li>
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">GDPR</a></li>
-          <li><a href="#" class="hover:text-cyan-300 transition-colors">Compliance</a></li>
-        </ul>
+        <h4 class="text-sm font-semibold text-ink-900 mb-4">Get the App</h4>
+        <div class="space-y-2.5">
+          <a href="#" class="flex items-center gap-2 bg-white border border-ink-100 rounded-lg p-2.5 shadow-soft hover:border-brand-200 transition-colors">
+            <i data-lucide="apple" class="w-5 h-5 text-ink-700"></i>
+            <div>
+              <div class="text-[9px] text-ink-400 leading-none">Download on</div>
+              <div class="text-xs font-semibold text-ink-900 leading-tight mt-0.5">App Store</div>
+            </div>
+          </a>
+          <a href="#" class="flex items-center gap-2 bg-white border border-ink-100 rounded-lg p-2.5 shadow-soft hover:border-brand-200 transition-colors">
+            <i data-lucide="play" class="w-5 h-5 text-ink-700"></i>
+            <div>
+              <div class="text-[9px] text-ink-400 leading-none">Get it on</div>
+              <div class="text-xs font-semibold text-ink-900 leading-tight mt-0.5">Google Play</div>
+            </div>
+          </a>
+        </div>
       </div>
+
     </div>
 
     <!-- Compliance badges -->
-    <div class="flex flex-wrap items-center justify-center gap-6 py-8 border-t border-white/5 mb-8">
-      <div class="flex items-center gap-2 px-4 py-2 glass rounded-xl">
-        <i data-lucide="shield-check" class="w-4 h-4 text-cyan-400"></i>
-        <span class="text-xs font-medium text-slate-300">HIPAA Compliant</span>
+    <div class="flex flex-wrap items-center justify-center gap-3 py-7 border-t border-ink-100 mb-7">
+      <div class="flex items-center gap-2 px-3 py-2 bg-white border border-ink-100 rounded-lg shadow-soft">
+        <i data-lucide="shield-check" class="w-4 h-4 text-brand-600"></i>
+        <span class="text-xs font-medium text-ink-700">HIPAA Compliant</span>
       </div>
-      <div class="flex items-center gap-2 px-4 py-2 glass rounded-xl">
-        <i data-lucide="lock" class="w-4 h-4 text-cyan-400"></i>
-        <span class="text-xs font-medium text-slate-300">SOC 2 Type II</span>
+      <div class="flex items-center gap-2 px-3 py-2 bg-white border border-ink-100 rounded-lg shadow-soft">
+        <i data-lucide="globe" class="w-4 h-4 text-brand-600"></i>
+        <span class="text-xs font-medium text-ink-700">GDPR Certified</span>
       </div>
-      <div class="flex items-center gap-2 px-4 py-2 glass rounded-xl">
-        <i data-lucide="globe" class="w-4 h-4 text-cyan-400"></i>
-        <span class="text-xs font-medium text-slate-300">GDPR Certified</span>
+      <div class="flex items-center gap-2 px-3 py-2 bg-white border border-ink-100 rounded-lg shadow-soft">
+        <i data-lucide="award" class="w-4 h-4 text-brand-600"></i>
+        <span class="text-xs font-medium text-ink-700">ISO 27001</span>
       </div>
-      <div class="flex items-center gap-2 px-4 py-2 glass rounded-xl">
-        <i data-lucide="award" class="w-4 h-4 text-cyan-400"></i>
-        <span class="text-xs font-medium text-slate-300">ISO 27001</span>
-      </div>
-      <div class="flex items-center gap-2 px-4 py-2 glass rounded-xl">
-        <i data-lucide="file-check" class="w-4 h-4 text-cyan-400"></i>
-        <span class="text-xs font-medium text-slate-300">FDA Cleared</span>
+      <div class="flex items-center gap-2 px-3 py-2 bg-white border border-ink-100 rounded-lg shadow-soft">
+        <i data-lucide="lock" class="w-4 h-4 text-brand-600"></i>
+        <span class="text-xs font-medium text-ink-700">SOC 2 Type II</span>
       </div>
     </div>
 
-    <div class="flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500">
-      <div>© 2025 MediCore AI Inc. All rights reserved. Not a substitute for professional medical advice.</div>
+    <div class="flex flex-wrap items-center justify-between gap-4 text-xs text-ink-400">
+      <div>© 2025 MediCore AI Inc. All rights reserved. MediCore AI is not a substitute for professional medical advice.</div>
       <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot"></span>
+        <span class="w-2 h-2 rounded-full bg-emerald-500 live-dot"></span>
         <span>All systems operational</span>
       </div>
     </div>
   </div>
 </footer>
 
-<!-- Toast Container -->
-<div id="toast-container" class="fixed bottom-6 right-6 z-[100] flex flex-col gap-3"></div>
+<!-- ============ TOAST CONTAINER ============ -->
+<div id="toast-container" class="fixed bottom-6 right-6 z-[100] flex flex-col gap-3 pointer-events-none"></div>
 
 <script>
 // Initialize Lucide icons
 lucide.createIcons();
 
-// ============== Theme Toggle ==============
-const themeToggle = document.getElementById('theme-toggle');
-const html = document.documentElement;
-
-themeToggle.addEventListener('click', () => {
-  html.classList.toggle('light');
-  html.classList.toggle('dark');
-  const isLight = html.classList.contains('light');
-  document.querySelector('.dark-icon').classList.toggle('hidden', isLight);
-  document.querySelector('.light-icon').classList.toggle('hidden', !isLight);
-  showToast(isLight ? 'Light mode enabled' : 'Dark mode enabled', 'info');
-});
-
-// ============== Mobile Menu ==============
-const mobileToggle = document.getElementById('mobile-toggle');
+// ============ Mobile Menu ============
+const mobileBtn = document.getElementById('mobile-menu-btn');
 const mobileMenu = document.getElementById('mobile-menu');
-const mobileOverlay = document.getElementById('mobile-menu-overlay');
+let menuOpen = false;
 
-mobileToggle.addEventListener('click', () => mobileMenu.classList.add('open'));
-mobileOverlay.addEventListener('click', () => mobileMenu.classList.remove('open'));
-document.querySelectorAll('.mobile-link').forEach(link => {
-  link.addEventListener('click', () => mobileMenu.classList.remove('open'));
-});
-
-// ============== Navbar scroll ==============
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 20) navbar.classList.add('nav-scrolled');
-  else navbar.classList.remove('nav-scrolled');
-});
-
-// ============== Scroll Reveal ==============
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('revealed');
-      
-      // Trigger counters
-      if (entry.target.hasAttribute('data-counter') || entry.target.querySelector('[data-counter]')) {
-        const counters = entry.target.hasAttribute('data-counter') ? [entry.target] : entry.target.querySelectorAll('[data-counter]');
-        counters.forEach(c => animateCounter(c));
-      }
-      
-      // Trigger health score
-      if (entry.target.id === 'dashboard' || entry.target.querySelector('#dashboard-score-circle')) {
-        setTimeout(() => animateHealthScore(), 300);
-      }
-      
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.15 });
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// ============== Counter Animation ==============
-function animateCounter(el) {
-  const target = parseFloat(el.dataset.counter);
-  const duration = 2000;
-  const start = performance.now();
-  const isDecimal = target % 1 !== 0;
-  
-  function update(now) {
-    const elapsed = now - start;
-    const progress = Math.min(elapsed / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    const current = target * eased;
-    el.textContent = isDecimal ? current.toFixed(1) : Math.floor(current);
-    if (progress < 1) requestAnimationFrame(update);
-    else el.textContent = target;
-  }
-  requestAnimationFrame(update);
-}
-
-// ============== Health Score Animation ==============
-function animateHealthScore() {
-  const heroCircle = document.getElementById('health-score-circle');
-  const dashboardCircle = document.getElementById('dashboard-score-circle');
-  const heroValue = document.getElementById('health-score-value');
-  const dashboardValue = document.getElementById('dashboard-score-value');
-  
-  const score = 92;
-  const circumference = 326.7;
-  const offset = circumference - (score / 100) * circumference;
-  
-  if (heroCircle) heroCircle.style.strokeDashoffset = offset;
-  if (dashboardCircle) dashboardCircle.style.strokeDashoffset = offset;
-  
-  // Animate numbers
-  [heroValue, dashboardValue].forEach(el => {
-    if (!el) return;
-    const duration = 2000;
-    const start = performance.now();
-    function update(now) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.floor(score * eased);
-      if (progress < 1) requestAnimationFrame(update);
-      else el.textContent = score;
-    }
-    requestAnimationFrame(update);
-  });
-}
-
-// Trigger hero score on load
-setTimeout(() => {
-  const heroCircle = document.getElementById('health-score-circle');
-  const heroValue = document.getElementById('health-score-value');
-  if (heroCircle && heroValue) {
-    const score = 92;
-    const circumference = 326.7;
-    const offset = circumference - (score / 100) * circumference;
-    heroCircle.style.strokeDashoffset = offset;
-    
-    const duration = 2000;
-    const start = performance.now();
-    function update(now) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      heroValue.textContent = Math.floor(score * eased);
-      if (progress < 1) requestAnimationFrame(update);
-      else heroValue.textContent = score;
-    }
-    requestAnimationFrame(update);
-  }
-}, 1000);
-
-// ============== AI Typing Animation ==============
-const typingTexts = [
-  "Based on your recent vitals, I recommend increasing your water intake and maintaining your current exercise routine. Your cardiovascular health is trending positively.",
-  "I've noticed your sleep quality has improved 12% this week. Keep up the consistent bedtime schedule for optimal recovery.",
-  "Your blood pressure is within healthy range. Consider adding 15 minutes of morning walk to further improve circulation."
-];
-
-let typingIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
-
-function typeWriter() {
-  const el = document.getElementById('typing-text');
-  if (!el) return;
-  
-  const current = typingTexts[typingIndex];
-  
-  if (!isDeleting) {
-    el.textContent = current.substring(0, charIndex + 1);
-    charIndex++;
-    if (charIndex === current.length) {
-      isDeleting = true;
-      setTimeout(typeWriter, 4000);
-      return;
-    }
-    setTimeout(typeWriter, 30);
-  } else {
-    el.textContent = current.substring(0, charIndex - 1);
-    charIndex--;
-    if (charIndex === 0) {
-      isDeleting = false;
-      typingIndex = (typingIndex + 1) % typingTexts.length;
-      setTimeout(typeWriter, 500);
-      return;
-    }
-    setTimeout(typeWriter, 15);
-  }
-}
-
-setTimeout(typeWriter, 2000);
-
-// ============== Testimonials Carousel ==============
-const track = document.getElementById('testimonial-track');
-const dotsContainer = document.getElementById('testimonial-dots');
-const prevBtn = document.getElementById('prev-testimonial');
-const nextBtn = document.getElementById('next-testimonial');
-const totalSlides = 3;
-let currentSlide = 0;
-
-// Create dots
-for (let i = 0; i < totalSlides; i++) {
-  const dot = document.createElement('button');
-  dot.className = 'w-2 h-2 rounded-full transition-all duration-300 ' + (i === 0 ? 'bg-cyan-400 w-8' : 'bg-slate-700');
-  dot.addEventListener('click', () => goToSlide(i));
-  dotsContainer.appendChild(dot);
-}
-
-function goToSlide(index) {
-  currentSlide = (index + totalSlides) % totalSlides;
-  track.style.transform = `translateX(-${currentSlide * 100}%)`;
-  Array.from(dotsContainer.children).forEach((dot, i) => {
-    dot.className = 'w-2 h-2 rounded-full transition-all duration-300 ' + (i === currentSlide ? 'bg-cyan-400 w-8' : 'bg-slate-700');
-  });
-}
-
-prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
-nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
-
-// Auto-advance
-setInterval(() => goToSlide(currentSlide + 1), 6000);
-
-// ============== ECG Canvas Animation ==============
-const ecgCanvas = document.getElementById('ecg-canvas');
-const ecgCtx = ecgCanvas.getContext('2d');
-
-function resizeECG() {
-  ecgCanvas.width = ecgCanvas.offsetWidth;
-  ecgCanvas.height = ecgCanvas.offsetHeight;
-}
-resizeECG();
-window.addEventListener('resize', resizeECG);
-
-// ECG waveform pattern
-const ecgPoints = [
-  [0, 0], [0.04, 0], [0.06, -0.1], [0.08, 0], [0.1, 0], // P wave
-  [0.12, 0.05], [0.13, -0.4], [0.14, 1.2], [0.15, -0.6], [0.16, 0.1], // QRS
-  [0.2, 0], [0.24, -0.15], [0.28, 0], [0.32, 0], // T wave
-  [1, 0]
-];
-
-let ecgPhase = 0;
-const ecgSpeed = 1.5;
-
-function drawECG() {
-  ecgCtx.clearRect(0, 0, ecgCanvas.width, ecgCanvas.height);
-  
-  const yCenter = ecgCanvas.height * 0.6;
-  const amplitude = Math.min(ecgCanvas.height * 0.18, 80);
-  const cycleWidth = 280;
-  
-  // Draw glow line
-  ecgCtx.strokeStyle = 'rgba(0, 212, 255, 0.5)';
-  ecgCtx.lineWidth = 2;
-  ecgCtx.shadowColor = 'rgba(0, 212, 255, 0.8)';
-  ecgCtx.shadowBlur = 12;
-  
-  ecgCtx.beginPath();
-  
-  for (let x = 0; x <= ecgCanvas.width; x += 2) {
-    const cycleX = (x + ecgPhase) % cycleWidth;
-    const progress = cycleX / cycleWidth;
-    
-    let y = 0;
-    for (let i = 0; i < ecgPoints.length - 1; i++) {
-      if (progress >= ecgPoints[i][0] && progress < ecgPoints[i+1][0]) {
-        const t = (progress - ecgPoints[i][0]) / (ecgPoints[i+1][0] - ecgPoints[i][0]);
-        y = ecgPoints[i][1] + (ecgPoints[i+1][1] - ecgPoints[i][1]) * t;
-        break;
-      }
-    }
-    
-    const drawY = yCenter - y * amplitude;
-    if (x === 0) ecgCtx.moveTo(x, drawY);
-    else ecgCtx.lineTo(x, drawY);
-  }
-  
-  ecgCtx.stroke();
-  ecgCtx.shadowBlur = 0;
-  
-  ecgPhase += ecgSpeed;
-  requestAnimationFrame(drawECG);
-}
-
-drawECG();
-
-// ============== Particle Network ==============
-const particleCanvas = document.getElementById('particle-canvas');
-const pCtx = particleCanvas.getContext('2d');
-
-function resizeParticles() {
-  particleCanvas.width = window.innerWidth;
-  particleCanvas.height = window.innerHeight;
-}
-resizeParticles();
-window.addEventListener('resize', resizeParticles);
-
-const particles = [];
-const numParticles = Math.min(60, Math.floor(window.innerWidth / 25));
-
-for (let i = 0; i < numParticles; i++) {
-  particles.push({
-    x: Math.random() * particleCanvas.width,
-    y: Math.random() * particleCanvas.height,
-    vx: (Math.random() - 0.5) * 0.3,
-    vy: (Math.random() - 0.5) * 0.3,
-    radius: Math.random() * 1.5 + 0.5,
-  });
-}
-
-function drawParticles() {
-  pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
-  
-  particles.forEach(p => {
-    p.x += p.vx;
-    p.y += p.vy;
-    
-    if (p.x < 0 || p.x > particleCanvas.width) p.vx *= -1;
-    if (p.y < 0 || p.y > particleCanvas.height) p.vy *= -1;
-    
-    pCtx.fillStyle = 'rgba(0, 212, 255, 0.4)';
-    pCtx.beginPath();
-    pCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-    pCtx.fill();
-  });
-  
-  // Connect nearby particles
-  for (let i = 0; i < particles.length; i++) {
-    for (let j = i + 1; j < particles.length; j++) {
-      const dx = particles[i].x - particles[j].x;
-      const dy = particles[i].y - particles[j].y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      
-      if (dist < 130) {
-        const opacity = 0.15 * (1 - dist / 130);
-        pCtx.strokeStyle = `rgba(0, 212, 255, ${opacity})`;
-        pCtx.lineWidth = 0.5;
-        pCtx.beginPath();
-        pCtx.moveTo(particles[i].x, particles[i].y);
-        pCtx.lineTo(particles[j].x, particles[j].y);
-        pCtx.stroke();
-      }
-    }
-  }
-  
-  requestAnimationFrame(drawParticles);
-}
-
-drawParticles();
-
-// ============== SOS Button Hold ==============
-let sosTimer = null;
-const sosBtn = document.querySelector('.pulse-sos');
-if (sosBtn) {
-  let holdStart = 0;
-  sosBtn.addEventListener('mousedown', () => {
-    holdStart = Date.now();
-    sosTimer = setTimeout(() => {
-      showToast('Emergency services dispatched to your location', 'success');
-    }, 3000);
-  });
-  sosBtn.addEventListener('mouseup', () => {
-    clearTimeout(sosTimer);
-    const held = Date.now() - holdStart;
-    if (held < 3000) {
-      showToast('Hold for 3 seconds to activate SOS', 'info');
-    }
-  });
-  sosBtn.addEventListener('mouseleave', () => clearTimeout(sosTimer));
-}
-
-// ============== Toast System ==============
-function showToast(message, type = 'info') {
-  const container = document.getElementById('toast-container');
-  const toast = document.createElement('div');
-  const colors = {
-    info: 'border-cyan-400/30 text-cyan-300',
-    success: 'border-emerald-400/30 text-emerald-300',
-    warning: 'border-amber-400/30 text-amber-300',
-  };
-  const icons = {
-    info: 'info',
-    success: 'check-circle-2',
-    warning: 'alert-triangle',
-  };
-  toast.className = `glass-strong rounded-2xl px-5 py-4 flex items-center gap-3 ${colors[type]} transform translate-x-full transition-transform duration-500`;
-  toast.innerHTML = `
-    <i data-lucide="${icons[type]}" class="w-5 h-5"></i>
-    <span class="text-sm font-medium">${message}</span>
-  `;
-  container.appendChild(toast);
+mobileBtn.addEventListener('click', () => {
+  menuOpen = !menuOpen;
+  mobileMenu.classList.toggle('hidden', !menuOpen);
+  mobileBtn.innerHTML = menuOpen
+    ? '<i data-lucide="x" class="w-5 h-5 text-ink-700"></i>'
+    : '<i data-lucide="menu" class="w-5 h-5 text-ink-700"></i>';
   lucide.createIcons();
-  
-  setTimeout(() => toast.classList.remove('translate-x-full'), 100);
-  setTimeout(() => {
-    toast.classList.add('translate-x-full', 'opacity-0');
-    setTimeout(() => toast.remove(), 500);
-  }, 3500);
-}
+});
 
-// ============== Smooth Scroll ==============
+document.querySelectorAll('.mobile-link').forEach(link => {
+  link.addEventListener('click', () => {
+    menuOpen = false;
+    mobileMenu.classList.add('hidden');
+    mobileBtn.innerHTML = '<i data-lucide="menu" class="w-5 h-5 text-ink-700"></i>';
+    lucide.createIcons();
+  });
+});
+
+// ============ Smooth Scroll for Anchor Links ============
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     const target = document.querySelector(this.getAttribute('href'));
     if (target) {
       e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const offset = 80;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
     }
   });
 });
 
-// ============== CTA Button Feedback ==============
-document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const text = btn.textContent.trim();
-    if (text.includes('Diagnosis')) showToast('Opening AI diagnostic tool...', 'info');
-    else if (text.includes('AI Doctor')) showToast('Connecting you with AI doctor...', 'info');
-    else if (text.includes('Demo')) showToast('Scheduling demo session...', 'info');
+// ============ Fade-up on Scroll (Minimal) ============
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+
+// ============ SOS Button ============
+const sosBtn = document.getElementById('sos-btn');
+if (sosBtn) {
+  sosBtn.addEventListener('click', () => {
+    showToast('SOS alert sent. Emergency services have been notified of your location.', 'success');
+  });
+}
+
+// ============ Toast System ============
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+
+  const config = {
+    info: { bg: 'bg-white', border: 'border-brand-200', icon: 'info', iconColor: 'text-brand-600' },
+    success: { bg: 'bg-white', border: 'border-emerald-200', icon: 'check-circle-2', iconColor: 'text-emerald-600' },
+    warning: { bg: 'bg-white', border: 'border-amber-200', icon: 'alert-triangle', iconColor: 'text-amber-600' },
+  };
+  const c = config[type];
+
+  toast.className = `${c.bg} ${c.border} border rounded-xl shadow-card px-5 py-4 flex items-center gap-3 pointer-events-auto max-w-sm`;
+  toast.style.transform = 'translateX(120%)';
+  toast.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+  toast.innerHTML = `
+    <i data-lucide="${c.icon}" class="w-5 h-5 ${c.iconColor} flex-shrink-0"></i>
+    <span class="text-sm font-medium text-ink-900">${message}</span>
+  `;
+  container.appendChild(toast);
+  lucide.createIcons();
+
+  requestAnimationFrame(() => {
+    toast.style.transform = 'translateX(0)';
+  });
+
+  setTimeout(() => {
+    toast.style.transform = 'translateX(120%)';
+    setTimeout(() => toast.remove(), 400);
+  }, 4000);
+}
+
+// ============ CTA Button Feedback ============
+document.querySelectorAll('a.btn-primary, button.btn-primary').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    if (btn.getAttribute('href') === '#' || !btn.getAttribute('href')) {
+      e.preventDefault();
+      const text = btn.textContent.trim();
+      if (text.includes('Get Started')) showToast('Welcome! Redirecting to sign up...', 'info');
+      else if (text.includes('Started Free')) showToast('Starting your free trial...', 'info');
+      else if (text.includes('Talk to Sales')) showToast('Our team will reach out shortly.', 'info');
+    }
   });
 });
 
-// Welcome toast
-setTimeout(() => showToast('Welcome to MediCore AI', 'success'), 1500);
+document.querySelectorAll('.btn-secondary').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    if (btn.getAttribute('href') === '#' || !btn.getAttribute('href')) {
+      e.preventDefault();
+      showToast('Opening consultation scheduler...', 'info');
+    }
+  });
+});
 </script>
 
 </body>
